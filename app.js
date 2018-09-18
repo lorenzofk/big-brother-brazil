@@ -1,6 +1,6 @@
 /**
  * Arquivo principal que gerencia
- * o servidor NodeJS
+ * o servidor e a aplicação
  *
  * @author Lorenzo Kniss
  */
@@ -38,6 +38,6 @@ var server = app.listen(3000, function () {
 });
 
 module.exports = {
-    server : server,
-    app : app
+    app: app,
+    server: server
 };

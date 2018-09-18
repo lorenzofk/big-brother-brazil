@@ -3,12 +3,12 @@
 module.exports = {
 
   up(db, next) {
-    db.createCollection('elimination');
+    db.createCollection('big_brother');
     next();
   },
 
   down(db, next) {
-    db.collection('elimination').drop();
+    db.collection('big_brother').drop();
     next();
   }
 
