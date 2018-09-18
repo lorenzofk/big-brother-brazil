@@ -34,7 +34,7 @@ exports.create = function (req, res) {
             }).catch(function (err) {
 
                 if (err.code === 11000) {
-                    return res.status(422).send({'msg:': 'Este paredão já foi criado.'});
+                    res.status(422).send({'msg:': 'Este paredão já foi criado.'});
                 }
 
                 res.status(500).send(err);

@@ -40,7 +40,7 @@ var eliminationSchema = new Schema({
         default: true
     },
     candidates: [candidatesSchema]
-}, { collection: 'bigbrother' });
+}, { collection: 'big_brother' });
 
 
 module.exports = mongoose.model('EliminationModel', eliminationSchema);
