@@ -1,9 +1,3 @@
-/**
- * Arquivo de testes dos endpoints relacionados ao paredão
- *
- * @author Lorenzo Kniss
-*/
-
 var chai     = require('chai');
 var chaiHttp = require('chai-http');
 var server   = require('../app').server;
@@ -14,48 +8,61 @@ var should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Testes referentes ao Paredão', function () {
+describe('Paredão BBB', function () {
 
-    describe('/get [all]', function () {
+    // Before each test we empty the database
+    beforeEach(function (done) {
+        done();
+    });
 
-        it('O status do retorno deve ser 200', function (done) {
+    describe('/GET /paredao', function () {
+
+        it('it should list all the eliminations', function (done) {
 
             chai.request(server)
                 .get('/paredao')
                 .end(function (err, res) {
+
                     if (err) done(err);
+
                     res.should.have.status(200);
-                    done();
-                });
-        });
-
-        it('O retorno deve ser do tipo "Array"', function (done) {
-
-            chai.request(server)
-                .get('/paredao')
-                .end(function (err, res) {
-                    if (err) done(err);
                     res.body.should.be.a('array');
+
                     done();
                 });
-
         });
 
     });
 
-    describe('/post', function () {
+    describe('/POST /paredao', function () {
 
-        it('Deve criar um paredão com os participantes', function (done) {
+        it('it should not POST an elimination without some required fields', function (done) {
+
+            chai.request(server)
+                .post('/paredao')
+                .set('content-type', 'application/json')
+                .send({name: "Paredão Teste"})
+                .end(function (err, res) {
+
+                    if (err) done(err);
+
+                    res.should.have.status(422);
+
+                    done();
+                });
+
+        });
+
+        it('it should POST an elimination', function (done) {
 
             let start = new Date();
             let end   = new Date();
 
-            // Adiciona um dia para o fim da votação
             end.setDate(start.getDate() + 1);
 
             let data = {
-                name: "Paredão 1",
-                candidates: [{ name: "Pedro" }, { name: "João" }],
+                name: "Paredão",
+                candidates: [{ name: "Lorenzo" }, { name: "João" }],
                 startsAt: start,
                 endsAt: end
             };
@@ -69,9 +76,11 @@ describe('Testes referentes ao Paredão', function () {
                     if (err) done(err);
 
                     res.should.have.status(201);
+                    res.body.should.be.a('object');
                     res.body.should.have.property('_id');
                     res.body.should.have.property('candidates');
                     res.body.should.have.property('isOpen');
+                    expect(res.body.isOpen).to.be.an('boolean');
                     assert.equal(res.body.isOpen, true);
 
                     done();
@@ -79,16 +88,15 @@ describe('Testes referentes ao Paredão', function () {
 
         });
 
-        it('Deve retornar erro pois o paredão já existe', function (done) {
+        it('it should not POST an elimination because this record already exists', function (done) {
 
             let start = new Date();
             let end   = new Date();
 
-            // Adiciona um dia para o fim da votação
             end.setDate(start.getDate() + 1);
 
             let data = {
-                name: "Paredão 1",
+                name: "Paredão",
                 candidates: [{ name: "Teste" }, { name: "Teste 2" }],
                 startsAt: start,
                 endsAt: end
@@ -111,20 +119,23 @@ describe('Testes referentes ao Paredão', function () {
 
     });
 
-    describe('/put', function () {
+    describe('/PUT /paredao/:id', function () {
 
-        it('O status do retorno deve ser 200 e o paredão deve ser encerrado', function (done) {
+        it('it should UPDATE an elimination given the id', function (done) {
 
-            let eliminationId = "5ba19ccf666e8278d43a16cf";
+            let id = "5ba1b44c35872e08c1ca2d54";
 
             chai.request(server)
-                .put('/paredao/' + eliminationId)
+                .put('/paredao/' + id)
                 .send({isOpen: false})
                 .end(function (err, res) {
 
                     if (err) done(err);
 
                     res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('isOpen');
+                    expect(res.body.isOpen).to.be.an('boolean');
                     assert.equal(res.body.isOpen, false);
 
                     done();
@@ -133,4 +144,29 @@ describe('Testes referentes ao Paredão', function () {
         });
 
     });
+
+    describe('/GET /paredao/:id', function () {
+
+        it('it should GET an elimination by the given id', function (done) {
+
+            let id = "5ba1b44c35872e08c1ca2d54";
+
+            chai.request(server)
+                .get('/paredao/' + id)
+                .end(function (err, res) {
+
+                    if (err) done(err);
+
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('_id');
+                    res.body.should.have.property('candidates');
+                    res.body.should.have.property('isOpen');
+
+                    done();
+                });
+        });
+
+    });
+
 });
