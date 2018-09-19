@@ -16,7 +16,7 @@ chai.use(chaiHttp);
 
 describe('Testes referentes ao Paredão', function () {
 
-    describe('/get', function () {
+    describe('/get [all]', function () {
 
         it('O status do retorno deve ser 200', function (done) {
 
@@ -109,5 +109,28 @@ describe('Testes referentes ao Paredão', function () {
 
         });
 
-    })
+    });
+
+    describe('/put', function () {
+
+        it('O status do retorno deve ser 200 e o paredão deve ser encerrado', function (done) {
+
+            let eliminationId = "5ba19ccf666e8278d43a16cf";
+
+            chai.request(server)
+                .put('/paredao/' + eliminationId)
+                .send({isOpen: false})
+                .end(function (err, res) {
+
+                    if (err) done(err);
+
+                    res.should.have.status(200);
+                    assert.equal(res.body.isOpen, false);
+
+                    done();
+                });
+
+        });
+
+    });
 });

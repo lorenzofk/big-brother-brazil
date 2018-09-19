@@ -10,7 +10,16 @@ module.exports = new class EliminationRepository {
         return eliminationModel.create(data);
     };
 
-    eliminationModel() {
+    close(data) {
+
+        return eliminationModel.findByIdAndUpdate(data.id, {
+            $set: data,
+            new: true
+        });
+
+    };
+
+    getAll() {
         return eliminationModel.find();
     };
 }

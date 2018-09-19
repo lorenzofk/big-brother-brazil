@@ -8,7 +8,7 @@ exports.create = function (req, res) {
             : new Date(payload.startsAt);
 
     if (payload.name === undefined || payload.name.length === 0) {
-        res.status(422).json({'msg': 'O nome do paredão é obrigatório.'});
+        return res.status(422).json({'msg': 'O nome do paredão é obrigatório.'});
     }
 
     if (payload.candidates === undefined || payload.candidates.length < 2) {
@@ -34,30 +34,54 @@ exports.create = function (req, res) {
             }).catch(function (err) {
 
                 if (err.code === 11000) {
-                    res.status(422).send({'msg:': 'Este paredão já foi criado.'});
+                    return res.status(422).send({'msg:': 'Este paredão já foi criado.'});
                 }
 
-                res.status(500).send(err);
+                return res.status(500).send(err);
             });
 
     } catch (e) {
-        res.status(500).send(e);
+        return res.status(500).send(e);
     }
+};
+
+exports.update = function (req, res) {
+
+    let eliminationId = req.params.eliminationId;
+
+    if (eliminationId === undefined || eliminationId === '') {
+        return res.status(404).send({'msg': 'O ID do paredão é obrigatório.'});
+    }
+
+    if (req.body.isOpen === undefined) {
+        return res.status(422).send({'msg': 'O campo `isOpen` é obrigatório'});
+    }
+
+    // Adiciona o id ao body
+    req.body['id'] = eliminationId;
+
+    eliminationRepository.close(req.body)
+        .then(function(result) {
+            return res.status(200).send(result);
+        }).catch(function (err) {
+            return res.status(500).send(err);
+        });
+
 };
 
 exports.list = function (req, res) {
 
     try {
 
-        eliminationRepository.eliminationModel()
+        eliminationRepository.getAll()
             .then(function (result) {
-                res.json(result);
+                return res.json(result);
             }).catch(function (err) {
-                res.status(500).send(err);
+                return res.status(500).send(err);
             });
 
     } catch (e) {
-        res.status(500).send(e);
+        return res.status(500).send(e);
     }
 
 };

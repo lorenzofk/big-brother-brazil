@@ -23,11 +23,11 @@ mongoose.set('useFindAndModify', false);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-
 // Rotas da aplicação
 var eliminationRoute = require('./routes/elimination-route');
 
 app.use('/paredao', eliminationRoute);
+
 
 app.use('*', function (request, response) {
     response.status(404).json({msg: 'Page not found'});
@@ -38,6 +38,6 @@ var server = app.listen(3000, function () {
 });
 
 module.exports = {
-    app: app,
-    server: server
+    server: server,
+    app: app
 };
