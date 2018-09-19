@@ -1,8 +1,5 @@
-'use strict';
-
-var mongoose         = require('mongoose');
+var mongoose = require('mongoose');
 var eliminationModel = require('../models/elimination-model');
-
 
 module.exports = new class EliminationRepository {
 

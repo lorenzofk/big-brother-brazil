@@ -1,6 +1,7 @@
 var chai     = require('chai');
 var chaiHttp = require('chai-http');
 var server   = require('../app').server;
+var eliminationModel = require('../models/elimination-model');
 
 var assert = chai.assert;
 var expect = chai.expect;
@@ -12,7 +13,10 @@ describe('Paredão BBB', function () {
 
     // Before each test we empty the database
     beforeEach(function (done) {
-        done();
+        eliminationModel.deleteMany({}, function (err) {
+            if (err) done();
+            done();
+        });
     });
 
     describe('/GET /paredao', function () {
@@ -41,7 +45,7 @@ describe('Paredão BBB', function () {
             chai.request(server)
                 .post('/paredao')
                 .set('content-type', 'application/json')
-                .send({name: "Paredão Teste"})
+                .send({name: "Paredão"})
                 .end(function (err, res) {
 
                     if (err) done(err);
@@ -95,25 +99,29 @@ describe('Paredão BBB', function () {
 
             end.setDate(start.getDate() + 1);
 
-            let data = {
+            let model = new eliminationModel({
                 name: "Paredão",
                 candidates: [{ name: "Teste" }, { name: "Teste 2" }],
                 startsAt: start,
                 endsAt: end
-            };
+            });
 
-            chai.request(server)
-                .post('/paredao')
-                .set('content-type', 'application/json')
-                .send(data)
-                .end(function (err, res) {
+            model.save(function (err, model) {
 
-                    if (err) done(err);
+                chai.request(server)
+                    .post('/paredao')
+                    .set('content-type', 'application/json')
+                    .send(model)
+                    .end(function (err, res) {
 
-                    res.should.have.status(422);
+                        if (err) done(err);
 
-                    done();
-                });
+                        res.should.have.status(422);
+
+                        done();
+                    });
+
+            });
 
         });
 
@@ -123,23 +131,39 @@ describe('Paredão BBB', function () {
 
         it('it should UPDATE an elimination given the id', function (done) {
 
-            let id = "5ba1b44c35872e08c1ca2d54";
+            let start = new Date();
+            let end = new Date();
 
-            chai.request(server)
-                .put('/paredao/' + id)
-                .send({isOpen: false})
-                .end(function (err, res) {
+            end.setDate(start.getDate() + 1);
 
-                    if (err) done(err);
+            let model = new eliminationModel({
+                name: "Paredão 1",
+                startsAt: start,
+                endsAt: end,
+                isOpen: false
+            });
 
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('isOpen');
-                    expect(res.body.isOpen).to.be.an('boolean');
-                    assert.equal(res.body.isOpen, false);
+            model.save(function (err, model) {
 
-                    done();
-                });
+                if (err) done(err);
+
+                chai.request(server)
+                    .put('/paredao/' + model.id)
+                    .send(model)
+                    .end(function (err, res) {
+
+                        if (err) done(err);
+
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('isOpen');
+                        expect(res.body.isOpen).to.be.an('boolean');
+                        assert.equal(res.body.isOpen, false);
+
+                        done();
+                    });
+
+            });
 
         });
 
@@ -149,22 +173,37 @@ describe('Paredão BBB', function () {
 
         it('it should GET an elimination by the given id', function (done) {
 
-            let id = "5ba1b44c35872e08c1ca2d54";
+            let start = new Date();
+            let end = new Date();
 
-            chai.request(server)
-                .get('/paredao/' + id)
-                .end(function (err, res) {
+            end.setDate(start.getDate() + 1);
 
-                    if (err) done(err);
+            let model = new eliminationModel({
+                name: "Teste",
+                startsAt: start,
+                endsAt: end
+            });
 
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('_id');
-                    res.body.should.have.property('candidates');
-                    res.body.should.have.property('isOpen');
+            model.save(function (err, model) {
 
-                    done();
-                });
+                if (err) done(err);
+
+                chai.request(server)
+                    .get('/paredao/' + model.id)
+                    .end(function (err, res) {
+
+                        if (err) done(err);
+
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('_id');
+                        res.body.should.have.property('candidates');
+                        res.body.should.have.property('isOpen');
+                        res.body.should.have.property('_id').eql(model.id);
+                        done();
+                    });
+
+            })
         });
 
     });
