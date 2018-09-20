@@ -1,8 +1,7 @@
 'use strict';
 
-var mongoose         = require('mongoose');
+var mongoose = require('mongoose');
 var eliminationModel = require('../models/elimination-model');
-
 
 module.exports = new class EliminationRepository {
 
@@ -10,7 +9,22 @@ module.exports = new class EliminationRepository {
         return eliminationModel.create(data);
     };
 
-    eliminationModel() {
+    delete(id) {
+        return eliminationModel.findByIdAndRemove(id);
+    }
+
+    getById(id) {
+        return eliminationModel.findById(id);
+    };
+
+    getAll() {
         return eliminationModel.find();
+    };
+
+    update(data) {
+        return eliminationModel.findByIdAndUpdate(data.id, {
+            $set: data,
+            new: true
+        });
     };
 }
