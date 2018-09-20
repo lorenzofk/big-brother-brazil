@@ -1,3 +1,5 @@
+'use strict';
+
 var chai     = require('chai');
 var chaiHttp = require('chai-http');
 var server   = require('../app').server;
@@ -200,10 +202,49 @@ describe('Paredão BBB', function () {
                         res.body.should.have.property('candidates');
                         res.body.should.have.property('isOpen');
                         res.body.should.have.property('_id').eql(model.id);
+
                         done();
                     });
 
             })
+        });
+
+    });
+
+    describe('/DELETE /paredao/:id', function () {
+
+        it('it should DELETE an elimination by the given id', function (done) {
+
+            let start = new Date();
+            let end = new Date();
+
+            end.setDate(start.getDate() + 1);
+
+            let model = new eliminationModel({
+                name: "Teste",
+                startsAt: start,
+                endsAt: end
+            });
+
+            model.save(function (err, model) {
+
+                if (err) done(err);
+
+                chai.request(server)
+                    .delete('/paredao/' + model.id)
+                    .end(function (err, res) {
+
+                        if (err) done();
+
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('_id');
+                        res.body.should.have.property('_id').eql(model.id);
+
+                        done();
+                    });
+
+            });
         });
 
     });

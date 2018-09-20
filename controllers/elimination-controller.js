@@ -1,3 +1,5 @@
+'use strict';
+
 var eliminationModel = require('../models/elimination-model');
 var eliminationRepository = require('../repositories/elimination-repository');
 
@@ -44,26 +46,19 @@ exports.create = function (req, res) {
     }
 };
 
-exports.update = function (req, res) {
+exports.delete = function (req, res) {
 
     let id = req.params.id;
 
-    if (id === undefined || id === '') {
+    if (id === undefined || id.length === 0) {
         return res.status(404).send({'msg': 'The `id` param is required.'});
     }
 
-    if (req.body.isOpen === undefined) {
-        return res.status(422).send({'msg': 'The `isOpen` field is required.'});
-    }
-
-    // Appends the id in the request body
-    req.body['id'] = id;
-
     try {
 
-        eliminationRepository.update(req.body)
-            .then(function(result) {
-                return res.status(200).send(result);
+        eliminationRepository.delete(id)
+            .then(function (result) {
+                return res.json(result);
             }).catch(function (err) {
                 return res.status(500).send(err);
             });
@@ -81,6 +76,36 @@ exports.list = function (req, res) {
         eliminationRepository.getAll()
             .then(function (result) {
                 return res.json(result);
+            }).catch(function (err) {
+            return res.status(500).send(err);
+        });
+
+    } catch (e) {
+        return res.status(500).send(e);
+    }
+
+};
+
+exports.update = function (req, res) {
+
+    let id = req.params.id;
+
+    if (id === undefined || id.length === 0) {
+        return res.status(422).send({'msg': 'The `id` param is required.'});
+    }
+
+    if (req.body.isOpen === undefined) {
+        return res.status(422).send({'msg': 'The `isOpen` field is required.'});
+    }
+
+    // Appends the id in the request body
+    req.body['id'] = id;
+
+    try {
+
+        eliminationRepository.update(req.body)
+            .then(function(result) {
+                return res.status(200).send(result);
             }).catch(function (err) {
                 return res.status(500).send(err);
             });
