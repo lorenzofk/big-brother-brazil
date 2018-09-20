@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var eliminationModel = require('../models/elimination-model').eliminationModel;
+var objectId =  mongoose.Types.ObjectId;
 
 module.exports = new class EliminationRepository {
 
@@ -10,6 +11,11 @@ module.exports = new class EliminationRepository {
     };
 
     delete(id) {
+
+        if (! objectId.isValid(id)) {
+            throw Error('This id is invalid.');
+        }
+
         return eliminationModel.findByIdAndRemove(id);
     }
 
@@ -18,10 +24,19 @@ module.exports = new class EliminationRepository {
     };
 
     getById(id) {
+
+        if (! objectId.isValid(id)) {
+            throw Error('This id is invalid.');
+        }
+
         return eliminationModel.findById(id);
     };
 
     getResume(data) {
+
+        if (! objectId.isValid(data.id)) {
+            throw Error('This id is invalid.');
+        }
 
         return eliminationModel.aggregate([
             { $match: {"_id": mongoose.Types.ObjectId(data.id) } },
@@ -40,11 +55,21 @@ module.exports = new class EliminationRepository {
     }
 
     update(data) {
+
+        if (! objectId.isValid(data.id)) {
+            throw Error('This id is invalid.');
+        }
+
         return eliminationModel.findByIdAndUpdate(data.id, {$set: data}, {new: true});
     };
 
-    //TODO Validate if ids are of type ObjectType
     vote(data) {
+
+        // TODO validate if the elimination is open to vote
+
+        if (! objectId.isValid(data.id)) {
+            throw Error('This id is invalid.');
+        }
 
         return eliminationModel.findOneAndUpdate({
                 "_id": data.id,

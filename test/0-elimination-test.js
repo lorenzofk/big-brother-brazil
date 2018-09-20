@@ -11,15 +11,14 @@ var should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Paredão BBB', function () {
+describe('(1) - Paredão BBB', function () {
 
     // Before each test we empty the database
     beforeEach(function (done) {
-        done();
-        /*eliminationModel.deleteMany({}, function (err) {
+        eliminationModel.deleteMany({}, function (err) {
             if (err) done();
             done();
-        });*/
+        });
     });
 
     describe('/GET /paredao', function () {
