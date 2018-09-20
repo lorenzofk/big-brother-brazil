@@ -3,7 +3,7 @@
 var chai     = require('chai');
 var chaiHttp = require('chai-http');
 var server   = require('../app').server;
-var eliminationModel = require('../models/elimination-model');
+var eliminationModel = require('../models/elimination-model').eliminationModel;
 
 var assert = chai.assert;
 var expect = chai.expect;
@@ -15,10 +15,11 @@ describe('Paredão BBB', function () {
 
     // Before each test we empty the database
     beforeEach(function (done) {
-        eliminationModel.deleteMany({}, function (err) {
+        done();
+        /*eliminationModel.deleteMany({}, function (err) {
             if (err) done();
             done();
-        });
+        });*/
     });
 
     describe('/GET /paredao', function () {
@@ -68,7 +69,7 @@ describe('Paredão BBB', function () {
 
             let data = {
                 name: "Paredão",
-                candidates: [{ name: "Lorenzo" }, { name: "João" }],
+                participants: [{ name: "Lorenzo" }, { name: "João" }],
                 startsAt: start,
                 endsAt: end
             };
@@ -84,7 +85,7 @@ describe('Paredão BBB', function () {
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property('_id');
-                    res.body.should.have.property('candidates');
+                    res.body.should.have.property('participants');
                     res.body.should.have.property('isOpen');
                     expect(res.body.isOpen).to.be.an('boolean');
                     assert.equal(res.body.isOpen, true);
@@ -103,7 +104,7 @@ describe('Paredão BBB', function () {
 
             let model = new eliminationModel({
                 name: "Paredão",
-                candidates: [{ name: "Teste" }, { name: "Teste 2" }],
+                participants: [{ name: "Teste" }, { name: "Teste 2" }],
                 startsAt: start,
                 endsAt: end
             });
@@ -199,7 +200,7 @@ describe('Paredão BBB', function () {
                         res.should.have.status(200);
                         res.body.should.be.a('object');
                         res.body.should.have.property('_id');
-                        res.body.should.have.property('candidates');
+                        res.body.should.have.property('participants');
                         res.body.should.have.property('isOpen');
                         res.body.should.have.property('_id').eql(model.id);
 
