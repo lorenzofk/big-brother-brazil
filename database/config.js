@@ -6,7 +6,7 @@ module.exports = {
 
     url: 'mongodb://localhost:27017',
 
-    databaseName: "bbb",
+    databaseName: "bbb_test",
 
     options: {
       useNewUrlParser: true, // removes a deprecation warning when connecting

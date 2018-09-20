@@ -3,20 +3,20 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
-var votesSchema = new Schema({
+var voteSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now()
     }
 });
 
-var candidatesSchema = new Schema({
+var participantSchema = new Schema({
     name: {
         type: String,
         trim: true,
         required: true
     },
-    votes: [votesSchema]
+    votes: [voteSchema]
 });
 
 var eliminationSchema = new Schema({
@@ -38,8 +38,15 @@ var eliminationSchema = new Schema({
         type: Boolean,
         default: true
     },
-    candidates: [candidatesSchema]
+    participants: [participantSchema]
 }, { collection: 'big_brother' });
 
+var voteModel        = mongoose.model('voteModel', voteSchema);
+var eliminationModel = mongoose.model('eliminationModel', eliminationSchema);
+var participantModel = mongoose.model('participantModel', participantSchema);
 
-module.exports = mongoose.model('EliminationModel', eliminationSchema);
+module.exports = {
+    eliminationModel: eliminationModel,
+    voteModel: voteModel,
+    participantModel: participantModel
+};

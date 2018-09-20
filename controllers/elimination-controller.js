@@ -1,6 +1,6 @@
 'use strict';
 
-var eliminationModel = require('../models/elimination-model');
+var eliminationModel = require('../models/elimination-model').eliminationModel;
 var eliminationRepository = require('../repositories/elimination-repository');
 
 exports.create = function (req, res) {
@@ -11,8 +11,8 @@ exports.create = function (req, res) {
         return res.status(422).json({'msg': 'The `name` field is required.'});
     }
 
-    if (model.candidates === undefined || model.candidates.length < 2) {
-        return res.status(422).send({'msg': 'The `candidates` field is required and must be least 2.'});
+    if (model.participants === undefined || model.participants.length < 2) {
+        return res.status(422).send({'msg': 'The `participants` field is required and must be least 2.'});
     }
 
     if (model.startsAt === undefined || model.startsAt.length === 0) {
@@ -37,7 +37,7 @@ exports.create = function (req, res) {
                 if (err.code === 11000) {
                     return res.status(422).send({'msg:': 'This record already exists.'});
                 }
-                console.log(err);
+
                 return res.status(500).send(err);
         });
     } catch (e) {
