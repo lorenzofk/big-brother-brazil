@@ -39,12 +39,12 @@ describe('Votação BBB', function () {
 
                         if (err) done(err);
 
+                        console.log(res.body);
+
                         res.should.have.status(200);
                         res.body.should.be.a('object');
-                        res.body.should.have.property('participants');
-                        res.body.participants[0].should.have.property('votes');
-                        res.body.participants[0].votes.should.be.a('array');
-                        expect([res.body.participants[0].votes]).to.have.lengthOf(1);
+                        res.body.should.have.property('resume');
+                        res.body.should.have.property('total');
 
                         done();
                     });

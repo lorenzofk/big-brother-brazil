@@ -21,9 +21,33 @@ exports.vote = function (req, res) {
 
         eliminationRepository.vote(vote)
             .then(function(result) {
-                return res.status(200).send(result);
-            }).catch(function (err) {
-                return res.status(500).send(err);
+
+                if (result === null) {
+                    res.status(404).send({'msg': 'Elimination or participant not found.'});
+                }
+
+                eliminationRepository.getResume(vote)
+                    .then(function (response) {
+
+                        let total = response.reduce(function (acc, item) {
+                            return acc + item.count;
+                        }, 0);
+
+                        let resume = response.map(function (item) {
+                            return {
+                                id: item._id,
+                                percent: parseFloat((item.count / total).toFixed(2))
+                            };
+                        });
+
+                        return res.json({'resume': resume, 'total': total});
+
+                    }).catch(function (err) {
+                        return res.status(500).send(err);
+                    });
+
+            }).catch(function (error) {
+                return res.status(500).send(error);
             });
 
     } catch (e) {

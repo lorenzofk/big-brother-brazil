@@ -11,16 +11,15 @@ var should = chai.should();
 
 chai.use(chaiHttp);
 
-var deleteAfterRun = true;
-
 describe('Paredão BBB', function () {
 
     // Before each test we empty the database
     beforeEach(function (done) {
-        eliminationModel.deleteMany({}, function (err) {
+        done();
+        /*eliminationModel.deleteMany({}, function (err) {
             if (err) done();
             done();
-        });
+        });*/
     });
 
     describe('/GET /paredao', function () {
