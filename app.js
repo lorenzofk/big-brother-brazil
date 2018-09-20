@@ -25,9 +25,10 @@ app.use(bodyParser.json());
 
 // Rotas da aplicação
 var eliminationRoute = require('./routes/elimination-route');
+var pollRoute = require('./routes/poll-route');
 
 app.use('/paredao', eliminationRoute);
-
+app.use('/votacao', pollRoute);
 
 app.use('*', function (request, response) {
     response.status(404).json({msg: 'Page not found'});
