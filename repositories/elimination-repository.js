@@ -130,11 +130,11 @@ module.exports = new class EliminationRepository {
                 $push: {
                     "participants.$.votes": {
                         createdAt: new Date()
-                    }
-                }
+                    },
+                },
+                $inc: { "participants.$.totalOfVotes": 1 }
             },
-            { new: true }
-
+            { fields: { "_id": 1 }, new: true }
         );
 
     };
