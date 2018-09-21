@@ -15,14 +15,21 @@ exports.showResume = function (req, res) {
         eliminationRepository.getResume({id: id})
             .then(function (response) {
 
-                let total = response.reduce(function (acc, item) {
-                    return acc + item.count;
+                if (response[0] === undefined) {
+                    return res.status(404).json({'msg': "Error in calculating votes."})
+                }
+
+                let total = response[0].participants.reduce(function (acc, item) {
+                    return acc + item.totalOfVotes;
                 }, 0);
 
-                let resume = response.map(function (item) {
+                let resume = response[0].participants.map(function (item) {
+
+                    let pct = parseFloat((item.totalOfVotes / total).toFixed(2)) || 0;
+
                     return {
                         id: item._id,
-                        percent: parseFloat((item.count / total).toFixed(2))
+                        percent: pct
                     };
                 });
 

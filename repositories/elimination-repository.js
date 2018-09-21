@@ -41,20 +41,14 @@ module.exports = new class EliminationRepository {
             throw Error('This id is invalid.');
         }
 
-        return eliminationModel.aggregate([
-            { $match: {"_id": objectId(data.id) } },
-            { $unwind: '$participants' },
-            { $unwind: '$participants.votes' },
-            { $project: {_id: '$name', participants: '$participants'} },
+        return eliminationModel.find(
+            { _id: data.id },
             {
-                $group: {
-                    _id: '$participants._id',
-                    candidate: { $first: "$participants.name" },
-                    count: {$sum: 1},
-                }
+                _id: 1,
+                "participants._id": 1,
+                "participants.totalOfVotes": 1
             }
-        ]);
-
+        );
     }
 
     getResumeByHour(id) {
