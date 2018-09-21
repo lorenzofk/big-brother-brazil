@@ -33,13 +33,7 @@ exports.delete = function (req, res) {
 
         eliminationRepository.delete(id)
             .then(function (result) {
-
-                if (result === null) {
-                    return res.status(404).json({'msg': 'Elimination not found.'});
-                }
-
                 return res.json(result);
-
             }).catch(function (err) {
                 return res.status(500).send({'msg': err.message});
             });

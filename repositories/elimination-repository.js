@@ -16,7 +16,18 @@ module.exports = new class EliminationRepository {
             throw Error('This id is invalid.');
         }
 
-        return eliminationModel.findByIdAndRemove(id);
+        return eliminationModel.findByIdAndRemove(id)
+            .then(function (res) {
+
+                if (res === null) {
+                    throw Error('Elimination not found.');
+                }
+
+                return {_id: res._id};
+
+            }).catch(function (e) {
+                throw Error(e.message);
+            });
     }
 
     getAll() {
@@ -32,7 +43,10 @@ module.exports = new class EliminationRepository {
             throw Error('This id is invalid.');
         }
 
-        return eliminationModel.findById(id);
+        return eliminationModel.findById(
+            { _id: id },
+            { _id: 1, name: 1, "participants.name": 1, "participants._id": 1 }
+        );
     };
 
     getResume(data) {
@@ -58,7 +72,7 @@ module.exports = new class EliminationRepository {
         }
 
         return eliminationModel.aggregate([
-            { $match: {"_id": objectId(id) } },
+            { $match: {"_id": id } },
             { $unwind: '$participants' },
             { $unwind: '$participants.votes' },
             {
@@ -86,7 +100,7 @@ module.exports = new class EliminationRepository {
         return eliminationModel.aggregate([
             { $unwind: '$participants'},
             { $unwind: '$participants.votes'},
-            { $match: {"_id": objectId(data.id) }},
+            { $match: {"_id": data.id }},
             { $group: {
                     _id: "$name",
                     total: {'$sum': 1 },
