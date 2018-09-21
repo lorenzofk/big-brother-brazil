@@ -20,7 +20,10 @@ module.exports = new class EliminationRepository {
     }
 
     getAll() {
-        return eliminationModel.find();
+        return eliminationModel.find(
+            { isOpen: true, endsAt: {$gte: new Date()} },
+            { _id: 1, name: 1, "participants.name": 1, "participants._id": 1 }
+        );
     };
 
     getById(id) {
