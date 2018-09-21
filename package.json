@@ -4,10 +4,10 @@
   "description": "Aplicação para realização de votos em paredões do BBB",
   "main": "app.js",
   "directories": {
-    "test": "mocha --timeout=10000"
+    "test": "mocha"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "nyc --reporter=text mocha --exit",
     "dev": "nodemon app.js"
   },
   "repository": {
@@ -30,6 +30,7 @@
     "chai": "^4.1.2",
     "chai-http": "^4.2.0",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "nyc": "^13.0.1"
   }
 }
