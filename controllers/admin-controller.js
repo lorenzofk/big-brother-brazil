@@ -82,23 +82,35 @@ exports.showResumeByParticipant = function (req, res) {
 
     try {
 
-        eliminationRepository.getResumeByParticipant({ id: id, participantId: participantId })
+        eliminationRepository.getResume({ id: id })
             .then(function (response) {
 
-                let resume = response.map(function (item) {
-                    return {
-                        total: item.total,
-                        percent: parseFloat((item.totalOfParticipant / item.total).toFixed(2))
-                    };
-                });
+                let total = response[0].participants.reduce(function (acc, item) {
+                    return acc + item.totalOfVotes;
+                }, 0);
+
+                let resume = response[0].participants.reduce(function(filtered, item) {
+
+                    if (item._id == participantId) {
+
+                        let resumeOfParticipant = {
+                            percent: parseFloat((item.totalOfVotes / total).toFixed(2)) || 0
+                        }
+
+                        filtered.push(resumeOfParticipant);
+                    }
+
+                    return filtered;
+
+                }, []);
 
                 return res.json({'resume': resume});
 
-            }).catch(function (err) {
-                return res.status(500).send(err);
+            }).catch(function (e) {
+                return res.status(500).send({'msg': e.message});
             });
 
-    } catch (e) {
-        return res.status(500).send(e);
+    } catch (err) {
+        return res.status(500).send({'msg': err.message});
     }
 };

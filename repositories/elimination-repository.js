@@ -91,34 +91,6 @@ module.exports = new class EliminationRepository {
 
     }
 
-    getResumeByParticipant(data) {
-
-        if (! objectId.isValid(data.id) || ! objectId.isValid(data.participantId)) {
-            throw Error('This id is invalid.');
-        }
-
-        return eliminationModel.aggregate([
-            { $unwind: '$participants'},
-            { $unwind: '$participants.votes'},
-            { $match: {"_id": data.id }},
-            { $group: {
-                    _id: "$name",
-                    total: {'$sum': 1 },
-                    totalOfParticipant: {
-                        $sum: {
-                            $cond: [
-                                { "$eq": [ "$participants._id", objectId(data.participantId) ] },
-                                1,
-                                0
-                            ]
-                        }
-                    }
-                }}
-        ]);
-
-
-    };
-
     update(data) {
 
         if (! objectId.isValid(data.id)) {

@@ -207,7 +207,6 @@ describe('(1) - Paredão BBB', function () {
                         res.body.should.be.a('object');
                         res.body.should.have.property('_id');
                         res.body.should.have.property('participants');
-                        res.body.should.have.property('isOpen');
                         res.body.should.have.property('_id').eql(model.id);
 
                         done();
