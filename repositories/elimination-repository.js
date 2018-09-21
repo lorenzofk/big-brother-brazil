@@ -16,11 +16,25 @@ module.exports = new class EliminationRepository {
             throw Error('This id is invalid.');
         }
 
-        return eliminationModel.findByIdAndRemove(id);
+        return eliminationModel.findByIdAndRemove(id)
+            .then(function (res) {
+
+                if (res === null) {
+                    throw Error('Elimination not found.');
+                }
+
+                return {_id: res._id};
+
+            }).catch(function (e) {
+                throw Error(e.message);
+            });
     }
 
     getAll() {
-        return eliminationModel.find();
+        return eliminationModel.find(
+            { isOpen: true, endsAt: {$gte: new Date()} },
+            { _id: 1, name: 1, totalOfVotes: 1, "participants.name": 1, "participants._id": 1 }
+        );
     };
 
     getById(id) {
@@ -29,7 +43,10 @@ module.exports = new class EliminationRepository {
             throw Error('This id is invalid.');
         }
 
-        return eliminationModel.findById(id);
+        return eliminationModel.findById(
+            { _id: id },
+            { _id: 1, name: 1, totalOfVotes: 1, "participants.name": 1, "participants._id": 1 }
+        );
     };
 
     getResume(data) {
@@ -38,20 +55,15 @@ module.exports = new class EliminationRepository {
             throw Error('This id is invalid.');
         }
 
-        return eliminationModel.aggregate([
-            { $match: {"_id": objectId(data.id) } },
-            { $unwind: '$participants' },
-            { $unwind: '$participants.votes' },
-            { $project: {_id: '$name', participants: '$participants'} },
+        return eliminationModel.find(
+            { _id: data.id },
             {
-                $group: {
-                    _id: '$participants._id',
-                    candidate: { $first: "$participants.name" },
-                    count: {$sum: 1},
-                }
+                _id: 1,
+                totalOfVotes: 1,
+                "participants._id": 1,
+                "participants.totalOfVotes": 1
             }
-        ]);
-
+        );
     }
 
     getResumeByHour(id) {
@@ -80,41 +92,16 @@ module.exports = new class EliminationRepository {
 
     }
 
-    getResumeByParticipant(data) {
-
-        if (! objectId.isValid(data.id) || ! objectId.isValid(data.participantId)) {
-            throw Error('This id is invalid.');
-        }
-
-        return eliminationModel.aggregate([
-            { $unwind: '$participants'},
-            { $unwind: '$participants.votes'},
-            { $match: {"_id": objectId(data.id) }},
-            { $group: {
-                    _id: "$name",
-                    total: {'$sum': 1 },
-                    totalOfParticipant: {
-                        $sum: {
-                            $cond: [
-                                { "$eq": [ "$participants._id", objectId(data.participantId) ] },
-                                1,
-                                0
-                            ]
-                        }
-                    }
-                }}
-        ]);
-
-
-    };
-
     update(data) {
 
         if (! objectId.isValid(data.id)) {
             throw Error('This id is invalid.');
         }
 
-        return eliminationModel.findByIdAndUpdate(data.id, {$set: data}, {new: true});
+        return eliminationModel.findByIdAndUpdate(data.id,
+            { $set: data },
+            { fields: { "_id": 1, "isOpen": 1 }, new: true }
+        );
     };
 
     vote(data) {
@@ -130,14 +117,10 @@ module.exports = new class EliminationRepository {
                 "isOpen": true
             },
             {
-                $push: {
-                    "participants.$.votes": {
-                        createdAt: new Date()
-                    }
-                }
+                $inc:  { totalOfVotes: 1, "participants.$.totalOfVotes": 1 },
+                $push: { "participants.$.votes": { createdAt: new Date() } }
             },
-            { new: true }
-
+            { fields: { "_id": 1 } }
         );
 
     };
