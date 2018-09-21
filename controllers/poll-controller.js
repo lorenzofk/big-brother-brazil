@@ -34,14 +34,19 @@ exports.vote = function (req, res) {
                 eliminationRepository.getResume(vote)
                     .then(function (response) {
 
-                        let total = response.reduce(function (acc, item) {
-                            return acc + item.count;
-                        }, 0);
+                        if (response[0] === undefined) {
+                            return res.status(404).json({'msg': "Error in calculating votes."})
+                        }
 
-                        let resume = response.map(function (item) {
+                        let total = response[0].totalOfVotes;
+
+                        let resume = response[0].participants.map(function (item) {
+
+                            let pct = parseFloat((item.totalOfVotes / total).toFixed(2)) || 0;
+
                             return {
                                 id: item._id,
-                                percent: parseFloat((item.count / total).toFixed(2))
+                                percent: pct
                             };
                         });
 

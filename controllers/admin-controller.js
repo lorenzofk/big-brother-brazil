@@ -15,14 +15,19 @@ exports.showResume = function (req, res) {
         eliminationRepository.getResume({id: id})
             .then(function (response) {
 
-                let total = response.reduce(function (acc, item) {
-                    return acc + item.count;
-                }, 0);
+                if (response[0] === undefined) {
+                    return res.status(404).json({'msg': "Error in calculating votes."})
+                }
 
-                let resume = response.map(function (item) {
+                let total = response[0].totalOfVotes;
+
+                let resume = response[0].participants.map(function (item) {
+
+                    let pct = parseFloat((item.totalOfVotes / total).toFixed(2)) || 0;
+
                     return {
                         id: item._id,
-                        percent: parseFloat((item.count / total).toFixed(2))
+                        percent: pct
                     };
                 });
 
@@ -75,23 +80,33 @@ exports.showResumeByParticipant = function (req, res) {
 
     try {
 
-        eliminationRepository.getResumeByParticipant({ id: id, participantId: participantId })
+        eliminationRepository.getResume({ id: id })
             .then(function (response) {
 
-                let resume = response.map(function (item) {
-                    return {
-                        total: item.total,
-                        percent: parseFloat((item.totalOfParticipant / item.total).toFixed(2))
-                    };
-                });
+                let total = response[0].totalOfVotes;
+
+                let resume = response[0].participants.reduce(function(filtered, item) {
+
+                    if (item._id == participantId) {
+
+                        let resumeOfParticipant = {
+                            percent: parseFloat((item.totalOfVotes / total).toFixed(2)) || 0
+                        }
+
+                        filtered.push(resumeOfParticipant);
+                    }
+
+                    return filtered;
+
+                }, []);
 
                 return res.json({'resume': resume});
 
-            }).catch(function (err) {
-                return res.status(500).send(err);
+            }).catch(function (e) {
+                return res.status(500).send({'msg': e.message});
             });
 
-    } catch (e) {
-        return res.status(500).send(e);
+    } catch (err) {
+        return res.status(500).send({'msg': err.message});
     }
 };
