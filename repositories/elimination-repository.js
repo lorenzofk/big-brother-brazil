@@ -32,14 +32,14 @@ module.exports = new class EliminationRepository {
         return eliminationModel.findById(id);
     };
 
-    getResume(id) {
+    getResume(data) {
 
-        if (! objectId.isValid(id)) {
+        if (! objectId.isValid(data.id)) {
             throw Error('This id is invalid.');
         }
 
         return eliminationModel.aggregate([
-            { $match: {"_id": objectId(id) } },
+            { $match: {"_id": objectId(data.id) } },
             { $unwind: '$participants' },
             { $unwind: '$participants.votes' },
             { $project: {_id: '$name', participants: '$participants'} },
@@ -119,15 +119,15 @@ module.exports = new class EliminationRepository {
 
     vote(data) {
 
-        // TODO validate if the elimination is open to vote
-
-        if (! objectId.isValid(data.id)) {
+        if (! objectId.isValid(data.id) || ! objectId.isValid(data.participantId)) {
             throw Error('This id is invalid.');
         }
 
         return eliminationModel.findOneAndUpdate({
                 "_id": data.id,
-                "participants._id": data.participantId
+                "participants._id": data.participantId,
+                "endsAt": {$gte: new Date()},
+                "isOpen": true
             },
             {
                 $push: {
