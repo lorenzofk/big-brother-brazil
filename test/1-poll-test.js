@@ -11,7 +11,7 @@ var should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Votação BBB', function () {
+describe('(2) - Votação BBB', function () {
 
     describe('/POST /votacao/:eliminationId/:participantId', function () {
 
@@ -38,8 +38,6 @@ describe('Votação BBB', function () {
                     .end(function (err, res) {
 
                         if (err) done(err);
-
-                        console.log(res.body);
 
                         res.should.have.status(200);
                         res.body.should.be.a('object');
