@@ -16,6 +16,7 @@ var eliminationSchema = new Schema({
     startsAt: { type: Date, required: true },
     endsAt: { type: Date, required: true },
     isOpen: { type: Boolean, default: true },
+    totalOfVotes: { type: Number, default: 0 },
     participants: [participantSchema]
 }, { collection: 'big_brother' });
 

@@ -38,9 +38,7 @@ exports.vote = function (req, res) {
                             return res.status(404).json({'msg': "Error in calculating votes."})
                         }
 
-                        let total = response[0].participants.reduce(function (acc, item) {
-                            return acc + item.totalOfVotes;
-                        }, 0);
+                        let total = response[0].totalOfVotes;
 
                         let resume = response[0].participants.map(function (item) {
 
