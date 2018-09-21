@@ -155,10 +155,14 @@ describe('(1) - Paredão BBB', function () {
 
                 if (err) done(err);
 
+                model.isOpen = true;
+
                 chai.request(server)
                     .put('/paredao/' + model.id)
                     .send(model)
                     .end(function (err, res) {
+
+                        console.log(res.body);
 
                         if (err) done(err);
 
@@ -166,7 +170,7 @@ describe('(1) - Paredão BBB', function () {
                         res.body.should.be.a('object');
                         res.body.should.have.property('isOpen');
                         expect(res.body.isOpen).to.be.an('boolean');
-                        assert.equal(res.body.isOpen, false);
+                        assert.equal(res.body.isOpen, true);
 
                         done();
                     });

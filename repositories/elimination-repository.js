@@ -98,7 +98,10 @@ module.exports = new class EliminationRepository {
             throw Error('This id is invalid.');
         }
 
-        return eliminationModel.findByIdAndUpdate(data.id, {$set: data}, {new: true});
+        return eliminationModel.findByIdAndUpdate(data.id,
+            { $set: data },
+            { fields: { "_id": 1, "isOpen": 1 }, new: true }
+        );
     };
 
     vote(data) {
@@ -114,14 +117,10 @@ module.exports = new class EliminationRepository {
                 "isOpen": true
             },
             {
-                $push: {
-                    "participants.$.votes": {
-                        createdAt: new Date()
-                    },
-                },
-                $inc: { totalOfVotes: 1, "participants.$.totalOfVotes": 1 }
+                $inc:  { totalOfVotes: 1, "participants.$.totalOfVotes": 1 },
+                $push: { "participants.$.votes": { createdAt: new Date() } }
             },
-            { fields: { "_id": 1 }, new: true }
+            { fields: { "_id": 1 } }
         );
 
     };
