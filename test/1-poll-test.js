@@ -13,7 +13,53 @@ chai.use(chaiHttp);
 
 describe('(2) - Votação BBB', function () {
 
+    // Before each test we empty the database
+    beforeEach(function (done) {
+
+        // Don't remove my document used by tests
+        let query = { _id: { $ne: "5ba3ae10a745ea48ec7ee153" } };
+
+        eliminationModel.deleteMany(query, function (err) {
+            if (err) done();
+        });
+
+        done();
+    });
+
     describe('/POST /votacao/:eliminationId/:participantId', function () {
+
+        it('it should not POST a vote because the elimination has been closed', function (done) {
+
+            let start = new Date();
+            let end   = new Date();
+
+            end.setTime(start.getTime() + 1);
+
+            let model = new eliminationModel({
+                name: "Paredão Finalizado",
+                participants: [{ name: "Teste" }, { name: "Teste 2" }],
+                startsAt: start,
+                endsAt: end
+            });
+
+            model.save(function (err, model) {
+
+                if (err) done(err);
+
+                chai.request(server)
+                    .post('/votacao/' + model.id + '/' + model.participants[0].id)
+                    .set('content-type', 'application/json')
+                    .send(model)
+                    .end(function (err, res) {
+                        if (err) done(err);
+                        res.should.have.status(404);
+                        done();
+                    });
+
+            });
+
+        });
+
 
         it('it should POST a vote', function (done) {
 
@@ -23,13 +69,15 @@ describe('(2) - Votação BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let model = new eliminationModel({
-                name: "Paredão",
+                name: "Paredão Votação",
                 participants: [{ name: "Teste" }, { name: "Teste 2" }],
                 startsAt: start,
                 endsAt: end
             });
 
             model.save(function (err, model) {
+
+                if (err) done(err);
 
                 chai.request(server)
                     .post('/votacao/' + model.id + '/' + model.participants[0].id)
@@ -52,4 +100,5 @@ describe('(2) - Votação BBB', function () {
         });
 
     });
+
 });

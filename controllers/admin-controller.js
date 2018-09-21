@@ -12,7 +12,7 @@ exports.showResume = function (req, res) {
 
     try {
 
-        eliminationRepository.getResume(id)
+        eliminationRepository.getResume({id: id})
             .then(function (response) {
 
                 let total = response.reduce(function (acc, item) {
@@ -28,12 +28,12 @@ exports.showResume = function (req, res) {
 
                 return res.json({'resume': resume, 'total': total});
 
-            }).catch(function (err) {
-                return res.status(500).send(err);
+            }).catch(function (e) {
+                return res.status(500).send({'msg': e.message});
             });
 
-    } catch (e) {
-        return res.status(500).send(e);
+    } catch (err) {
+        return res.status(500).send({'msg': err.message});
     }
 };
 

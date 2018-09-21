@@ -14,12 +14,17 @@ chai.use(chaiHttp);
 describe('(1) - Paredão BBB', function () {
 
     // Before each test we empty the database
-    /*beforeEach(function (done) {
-        eliminationModel.deleteMany({}, function (err) {
+    beforeEach(function (done) {
+
+        // Don't remove my document used by tests
+        let query = { _id: { $ne: "5ba3ae10a745ea48ec7ee153" } };
+
+        eliminationModel.deleteMany(query, function (err) {
             if (err) done();
-            done();
         });
-    });*/
+
+        done();
+    });
 
     describe('/GET /paredao', function () {
 
@@ -47,7 +52,7 @@ describe('(1) - Paredão BBB', function () {
             chai.request(server)
                 .post('/paredao')
                 .set('content-type', 'application/json')
-                .send({name: "Paredão 123"})
+                .send({name: "Paredão POST"})
                 .end(function (err, res) {
 
                     if (err) done(err);
@@ -67,7 +72,7 @@ describe('(1) - Paredão BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let data = {
-                name: "Paredão 123",
+                name: "Paredão POST",
                 participants: [{ name: "Lorenzo" }, { name: "João" }],
                 startsAt: start,
                 endsAt: end
@@ -102,7 +107,7 @@ describe('(1) - Paredão BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let model = new eliminationModel({
-                name: "Paredão 123",
+                name: "Paredão POST",
                 participants: [{ name: "Teste" }, { name: "Teste 2" }],
                 startsAt: start,
                 endsAt: end
@@ -139,7 +144,8 @@ describe('(1) - Paredão BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let model = new eliminationModel({
-                name: "Paredão 123",
+                name: "Paredão UPDATE",
+                participants: [{name: 1}, {name: 2}],
                 startsAt: start,
                 endsAt: end,
                 isOpen: false
@@ -181,7 +187,8 @@ describe('(1) - Paredão BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let model = new eliminationModel({
-                name: "Teste",
+                name: "Paredão GET",
+                participants: [{name: 1}, {name: 2}],
                 startsAt: start,
                 endsAt: end
             });
@@ -221,7 +228,8 @@ describe('(1) - Paredão BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let model = new eliminationModel({
-                name: "Teste",
+                name: "Paredão DELET",
+                participants: [{name: 1}, {name: 2}],
                 startsAt: start,
                 endsAt: end
             });

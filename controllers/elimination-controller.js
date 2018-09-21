@@ -7,39 +7,15 @@ exports.create = function (req, res) {
 
     let model = new eliminationModel(req.body);
 
-    if (model.name === undefined || model.length === 0) {
-        return res.status(422).json({'msg': 'The `name` field is required.'});
-    }
-
-    if (model.participants === undefined || model.participants.length < 2) {
-        return res.status(422).send({'msg': 'The `participants` field is required and must be least 2.'});
-    }
-
-    if (model.startsAt === undefined || model.startsAt.length === 0) {
-        return res.status(422).send({'msg': 'The `startsAt` field is required.'});
-    }
-
-    if (model.endsAt === undefined || model.endsAt.length === 0) {
-        return res.status(422).send({'msg': 'The `endsAt` field is required.'});
-    }
-
-    if (new Date(model.endsAt).getTime() <= new Date(model.startsAt).getTime()) {
-        return res.status(422).send({'msg': 'End date must be greater then start'});
-    }
-
     try {
 
         eliminationRepository.create(model)
             .then(function (result) {
                 res.status(201).json(result);
             }).catch(function (err) {
+                return res.status(422).send({'msg': err.message});
+            });
 
-                if (err.code === 11000) {
-                    return res.status(422).send({'msg:': 'This record already exists.'});
-                }
-
-                return res.status(500).send(err);
-        });
     } catch (e) {
         console.log(e);
         return res.status(500).send(e);
@@ -58,13 +34,19 @@ exports.delete = function (req, res) {
 
         eliminationRepository.delete(id)
             .then(function (result) {
+
+                if (result === null) {
+                    return res.status(404).json({'msg': 'Elimination not found.'});
+                }
+
                 return res.json(result);
+
             }).catch(function (err) {
-                return res.status(500).send(err);
+                return res.status(500).send({'msg': err.message});
             });
 
     } catch (e) {
-        return res.status(500).send(e);
+        return res.status(500).send({'msg': e.message});
     }
 
 };
@@ -77,11 +59,11 @@ exports.list = function (req, res) {
             .then(function (result) {
                 return res.json(result);
             }).catch(function (err) {
-            return res.status(500).send(err);
-        });
+                return res.status(500).send({'msg': err.message});
+            });
 
     } catch (e) {
-        return res.status(500).send(e);
+        return res.status(500).send({'msg': e.message});
     }
 
 };
@@ -105,13 +87,19 @@ exports.update = function (req, res) {
 
         eliminationRepository.update(req.body)
             .then(function(result) {
+
+                if (result === null) {
+                    return res.status(404).json({'msg': 'Elimination not found.'});
+                }
+
                 return res.status(200).send(result);
+
             }).catch(function (err) {
-                return res.status(500).send(err);
+                return res.status(500).send({'msg': err.message});
             });
 
     } catch (e) {
-        return res.status(500).send(e);
+        return res.status(500).send({'msg': e.message});
     }
 
 };
@@ -128,13 +116,19 @@ exports.show = function (req, res) {
 
         eliminationRepository.getById(id)
             .then(function (result) {
+
+                if (result === null) {
+                    return res.status(404).json({'msg': 'Elimination not found.'});
+                }
+
                 return res.json(result);
+
             }).catch(function (err) {
-                return res.status(500).send(err);
+                return res.status(500).send({'msg': err.message});
             });
 
     } catch (e) {
-        return res.status(500).send(e);
+        return res.status(500).send({'msg': e.message});
     }
 
 };
