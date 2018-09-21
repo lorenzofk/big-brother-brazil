@@ -72,7 +72,7 @@ module.exports = new class EliminationRepository {
         }
 
         return eliminationModel.aggregate([
-            { $match: {"_id": id } },
+            { $match: {"_id": objectId(id) } },
             { $unwind: '$participants' },
             { $unwind: '$participants.votes' },
             {
