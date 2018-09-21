@@ -14,12 +14,12 @@ chai.use(chaiHttp);
 describe('(1) - Paredão BBB', function () {
 
     // Before each test we empty the database
-    beforeEach(function (done) {
+    /*beforeEach(function (done) {
         eliminationModel.deleteMany({}, function (err) {
             if (err) done();
             done();
         });
-    });
+    });*/
 
     describe('/GET /paredao', function () {
 
@@ -47,7 +47,7 @@ describe('(1) - Paredão BBB', function () {
             chai.request(server)
                 .post('/paredao')
                 .set('content-type', 'application/json')
-                .send({name: "Paredão"})
+                .send({name: "Paredão 123"})
                 .end(function (err, res) {
 
                     if (err) done(err);
@@ -67,7 +67,7 @@ describe('(1) - Paredão BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let data = {
-                name: "Paredão",
+                name: "Paredão 123",
                 participants: [{ name: "Lorenzo" }, { name: "João" }],
                 startsAt: start,
                 endsAt: end
@@ -102,7 +102,7 @@ describe('(1) - Paredão BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let model = new eliminationModel({
-                name: "Paredão",
+                name: "Paredão 123",
                 participants: [{ name: "Teste" }, { name: "Teste 2" }],
                 startsAt: start,
                 endsAt: end
@@ -139,7 +139,7 @@ describe('(1) - Paredão BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let model = new eliminationModel({
-                name: "Paredão 1",
+                name: "Paredão 123",
                 startsAt: start,
                 endsAt: end,
                 isOpen: false

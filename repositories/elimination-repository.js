@@ -32,14 +32,14 @@ module.exports = new class EliminationRepository {
         return eliminationModel.findById(id);
     };
 
-    getResume(data) {
+    getResume(id) {
 
-        if (! objectId.isValid(data.id)) {
+        if (! objectId.isValid(id)) {
             throw Error('This id is invalid.');
         }
 
         return eliminationModel.aggregate([
-            { $match: {"_id": mongoose.Types.ObjectId(data.id) } },
+            { $match: {"_id": objectId(id) } },
             { $unwind: '$participants' },
             { $unwind: '$participants.votes' },
             { $project: {_id: '$name', participants: '$participants'} },
@@ -53,6 +53,60 @@ module.exports = new class EliminationRepository {
         ]);
 
     }
+
+    getResumeByHour(id) {
+
+        if (! objectId.isValid(id)) {
+            throw Error('This id is invalid.');
+        }
+
+        return eliminationModel.aggregate([
+            { $match: {"_id": objectId(id) } },
+            { $unwind: '$participants' },
+            { $unwind: '$participants.votes' },
+            {
+                $group: {
+                    _id: {
+                        d: { $dayOfMonth: "$participants.votes.createdAt" },
+                        m: { $month: "$participants.votes.createdAt" },
+                        h: { $hour: "$participants.votes.createdAt" },
+                    },
+                    total: { $sum: 1 }
+                }
+            },
+            { $sort:{ "_id.m": 1 , "_id.d": 1, "_id.h": 1} }
+        ]);
+
+
+    }
+
+    getResumeByParticipant(data) {
+
+        if (! objectId.isValid(data.id) || ! objectId.isValid(data.participantId)) {
+            throw Error('This id is invalid.');
+        }
+
+        return eliminationModel.aggregate([
+            { $unwind: '$participants'},
+            { $unwind: '$participants.votes'},
+            { $match: {"_id": objectId(data.id) }},
+            { $group: {
+                    _id: "$name",
+                    total: {'$sum': 1 },
+                    totalOfParticipant: {
+                        $sum: {
+                            $cond: [
+                                { "$eq": [ "$participants._id", objectId(data.participantId) ] },
+                                1,
+                                0
+                            ]
+                        }
+                    }
+                }}
+        ]);
+
+
+    };
 
     update(data) {
 

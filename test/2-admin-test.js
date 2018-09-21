@@ -13,15 +13,6 @@ chai.use(chaiHttp);
 
 describe('(3) - Resultados Parciais BBB', function () {
 
-
-    // Before each test we empty the database
-    beforeEach(function (done) {
-        eliminationModel.deleteMany({}, function (err) {
-            if (err) done();
-            done();
-        });
-    });
-
     describe('/GET /admin/resultados/votos/:eliminationId', function () {
 
         it('it should GET all votes group by participant', function (done) {
@@ -32,13 +23,15 @@ describe('(3) - Resultados Parciais BBB', function () {
             end.setDate(start.getDate() + 1);
 
             let model = new eliminationModel({
-                name: "Paredão",
-                participants: [{ name: "Teste" }, { name: "Teste 2" }],
+                name: "Paredão 1234567",
+                participants: [{ name: "Teste_123" }, { name: "Teste_2" }],
                 startsAt: start,
                 endsAt: end
             });
 
             model.save(function (err, model) {
+
+                if (err) done(err);
 
                 chai.request(server)
                     .post('/votacao/' + model.id + '/' + model.participants[0].id)
@@ -83,4 +76,58 @@ describe('(3) - Resultados Parciais BBB', function () {
         });
 
     });
+
+    describe('/GET /admin/resultados/votosPorHora/:eliminationId', function () {
+
+        it('it should GET all votes group by hour from a specific elimination', function (done) {
+
+            chai.request(server)
+                .get('/paredao')
+                .end(function (err, res) {
+
+                    if (err) done(err);
+
+                    chai.request(server)
+                        .get('/admin/resultados/votosPorHora/' + res.body[0]._id)
+                        .end(function (err, res) {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            res.body.should.be.have.property('resume');
+                            done();
+                        });
+                });
+
+        });
+
+    });
+
+    describe('/GET /admin/resultados/votos/:eliminationId/:participantId', function () {
+
+        it('it should GET all votes from one participant', function (done) {
+
+
+            chai.request(server)
+                .get('/paredao')
+                .end(function (err, res) {
+
+                    if (err) done(err);
+
+                    chai.request(server)
+                        .get('/admin/resultados/votos/' + res.body[0]._id + '/' + res.body[0].participants[0]._id)
+                        .end(function (err, res) {
+
+                            console.log(res.body);
+
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            res.body.should.be.have.property('resume');
+                            done();
+                        });
+
+                });
+
+        });
+
+    });
+    
 });
