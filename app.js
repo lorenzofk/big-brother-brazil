@@ -36,6 +36,7 @@ var pollRoute = require('./routes/poll-route');
 // Static files
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use('/js', express.static(__dirname + '/node_modules/chart.js/dist'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/public', express.static(__dirname + '/public'))
 

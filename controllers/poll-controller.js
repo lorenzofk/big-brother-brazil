@@ -69,6 +69,7 @@ exports.vote = function (req, res) {
 
                             return {
                                 id: item._id,
+                                name: item.name,
                                 percent: pct
                             };
                         });

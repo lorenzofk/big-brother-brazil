@@ -61,7 +61,8 @@ module.exports = new class EliminationRepository {
                 _id: 1,
                 totalOfVotes: 1,
                 "participants._id": 1,
-                "participants.totalOfVotes": 1
+                "participants.totalOfVotes": 1,
+                "participants.name": 1
             }
         );
     }
