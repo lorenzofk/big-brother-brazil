@@ -45,8 +45,8 @@ app.use('/votacao', pollRoute);
 app.use('/paredao', eliminationRoute);
 
 
-app.use('*', function (request, response) {
-    response.status(404).json({msg: 'Page not found'});
+app.use('*', function (req, res) {
+    res.render('errors/404');
 });
 
 
