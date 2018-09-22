@@ -16,7 +16,7 @@ exports.showElimination = function (req, res) {
 
         eliminationRepository.getById(id)
             .then(function (result) {
-                return res.render('index', {id: result._id, participants: result.participants})
+                return res.render('index', {id: result._id, endsAt: result.endsAt, participants: result.participants})
             }).catch(function (e) {
                 return res.render('errors/404');
             });

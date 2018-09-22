@@ -34,7 +34,7 @@
 
         <div class="row">
 
-            <input id="elimination" type="hidden" value="<%= id %>">
+            <input id="elimination" type="hidden" value="<%= id %>" ends-at="<%= endsAt %>">
 
             <% for(var i = 0; i < participants.length; i++) {%>
 
@@ -114,6 +114,10 @@
 
         </div>
 
+    </div>
+
+    <div id="footer" class="container-fluid">
+        <h4 class="text-center">A votação será encerrada em <span class="counter"></span> </h4>
     </div>
 
 </div>
