@@ -33,7 +33,7 @@ module.exports = new class EliminationRepository {
     getAll() {
         return eliminationModel.find(
             { isOpen: true, endsAt: {$gte: new Date()} },
-            { _id: 1, name: 1, totalOfVotes: 1, "participants.name": 1, "participants._id": 1 }
+            { _id: 1, name: 1, isOpen: 1, totalOfVotes: 1, "participants.name": 1, "participants._id": 1 }
         );
     };
 
@@ -45,7 +45,7 @@ module.exports = new class EliminationRepository {
 
         return eliminationModel.findById(
             { _id: id },
-            { _id: 1, name: 1, endsAt: 1, totalOfVotes: 1, "participants.name": 1, "participants._id": 1 }
+            { _id: 1, name: 1, endsAt: 1, totalOfVotes: 1, isOpen: 1, "participants.name": 1, "participants._id": 1 }
         );
     };
 

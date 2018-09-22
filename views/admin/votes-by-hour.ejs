@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/Chart.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/poll.css">
+    <link rel="icon" href="/public/img/favicon.ico">
+
+    <style>
+
+        body {
+            min-height: 75rem;
+            padding-top: 4.5rem;
+        }
+
+    </style>
+
+</head>
+
+<body cz-shortcut-listen="true">
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
+    <a class="navbar-brand" href="#"><img src="/public/img/globo_logo.png" style="width:120px;"></a>
+
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Listar Paredões</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main role="main" class="container">
+
+    <input type="hidden" id="elimination" value="<%= id %>">
+
+    <h1 class="text-center"> Resumo Parcial do Total de Votos </h1>
+    <hr>
+    <h2 class="text-center"> Total de votos até o momento: <span class="total"></span> </h2>
+    <div class="jumbotron">
+
+        <div class="results">
+
+            <canvas id="results" width="600" height="500"></canvas>
+
+        </div>
+
+    </div>
+</main>
+
+<script>
+
+    $(document).ready(function () {
+
+        let id = $('#elimination').val();
+
+        $.get("/admin/resultados/votos/" + id, function(result) {
+
+            new Chart($('#results'), {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [
+                            parseFloat(result.resume[0].percent * 100).toFixed(2),
+                            parseFloat(result.resume[1].percent * 100).toFixed(2)
+                        ],
+                        backgroundColor:[
+                            "rgb(253, 126, 1)",
+                            "rgb(233, 236, 239)",
+                        ]
+                    }],
+                    labels: [
+                        result.resume[0].name,
+                        result.resume[1].name,
+                    ]
+                },
+                options: {
+                    cutoutPercentage: 70,
+                    circumference: 1.5 * Math.PI,
+                    rotation: 0.75 * Math.PI,
+                    maintainAspectRatio: false
+                }
+            });
+
+            $('.total').html(result.total);
+
+        });
+
+    });
+
+</script>
+
+</body>
+
+</html>

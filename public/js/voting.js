@@ -25,7 +25,7 @@ var counterDown = function (date) {
             clearInterval(counter);
         }
     }, 1000);
-}
+};
 
 $(document).ready(function () {
 
@@ -79,10 +79,17 @@ $(document).ready(function () {
                     ]
                 },
                 options: {
-                    reverse: true,
-                    rotation: 1 * Math.PI,
-                    circumference: 1 * Math.PI,
-                    responsive: true,
+                    cutoutPercentage: 70,
+                    circumference: 1.5 * Math.PI,
+                    rotation: 0.75 * Math.PI,
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: true
+                    },
+                    title: {
+                        display: true,
+                        text: 'Total Parcial de Votos'
+                    },
                 }
             });
 
