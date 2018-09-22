@@ -1,6 +1,35 @@
 'use strict';
 
+var mongoose = require('mongoose');
 var eliminationRepository = require('../repositories/elimination-repository');
+
+exports.showElimination = function (req, res) {
+
+    let id = req.params.id;
+
+    if (id === undefined || id.length === 0) {
+        return res.status(404);
+    }
+
+    try {
+
+        eliminationRepository.getById(id)
+            .then(function (result) {
+                return res.render('app/voting', {
+                    id: result._id,
+                    endsAt: result.endsAt,
+                    participants:
+                    result.participants}
+                );
+            }).catch(function (e) {
+            return res.render('errors/404');
+        });
+
+    } catch (err) {
+        return res.render('errors/404');
+    }
+
+};
 
 exports.vote = function (req, res) {
 
@@ -46,6 +75,7 @@ exports.vote = function (req, res) {
 
                             return {
                                 id: item._id,
+                                name: item.name,
                                 percent: pct
                             };
                         });
