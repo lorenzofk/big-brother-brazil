@@ -8,6 +8,8 @@
 var express    = require('express');
 var bodyParser = require('body-parser');
 var mongoose   = require('mongoose');
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 
 var app = express();
 
@@ -23,22 +25,45 @@ mongoose.set('useFindAndModify', false);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+// Set the view engine
+app.set('view engine', 'ejs');
+
 // App routes
 var eliminationRoute = require('./routes/elimination-route');
 var adminRoute = require('./routes/admin-route');
 var pollRoute = require('./routes/poll-route');
 
+// Static files
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist'));
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/public', express.static(__dirname + '/public'))
+
 app.use('/admin/', adminRoute);
 app.use('/votacao', pollRoute);
 app.use('/paredao', eliminationRoute);
+
 
 app.use('*', function (request, response) {
     response.status(404).json({msg: 'Page not found'});
 });
 
-var server = app.listen(3000, function () {
-    console.log('Server is running on port', server.address().port);
-});
+
+if (cluster.isMaster) {
+    console.log('Master process is running');
+
+    // Fork workers
+    for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
+
+} else {
+
+    var server = app.listen(3000, function () {
+        console.log('Server is running on port:', server.address().port + ' by worker: ' + cluster.worker.id);
+    });
+}
+
 
 module.exports = {
     server: server,

@@ -2,6 +2,29 @@
 
 var eliminationRepository = require('../repositories/elimination-repository');
 
+exports.showElimination = function (req, res) {
+
+    let id = req.params.id;
+
+    if (id === undefined || id.length === 0) {
+        return res.status(404).send({'msg': 'Page not found'});
+    }
+
+    try {
+
+        eliminationRepository.getById(id)
+            .then(function (result) {
+                return res.render('index', {id: result._id, participants: result.participants})
+            }).catch(function (e) {
+                return res.status(500).send({'msg': e.message});
+            });
+
+    } catch (e) {
+        return res.status(500).send({'msg': e.message})
+    }
+
+}
+
 exports.vote = function (req, res) {
 
     let id = req.params.id;
