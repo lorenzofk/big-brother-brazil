@@ -1,5 +1,7 @@
 'use strict';
 
+var mongoose = require('mongoose');
+var objectId = mongoose.Types.ObjectId;
 var eliminationRepository = require('../repositories/elimination-repository');
 
 exports.showElimination = function (req, res) {
@@ -7,7 +9,7 @@ exports.showElimination = function (req, res) {
     let id = req.params.id;
 
     if (id === undefined || id.length === 0) {
-        return res.status(404).send({'msg': 'Page not found'});
+        return res.status(404);
     }
 
     try {
@@ -16,11 +18,11 @@ exports.showElimination = function (req, res) {
             .then(function (result) {
                 return res.render('index', {id: result._id, participants: result.participants})
             }).catch(function (e) {
-                return res.status(500).send({'msg': e.message});
+                return res.render('errors/404');
             });
 
-    } catch (e) {
-        return res.status(500).send({'msg': e.message})
+    } catch (err) {
+        return res.render('errors/404');
     }
 
 }
