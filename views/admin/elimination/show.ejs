@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Informações do Paredão</title>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/Chart.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/elimination.css">
+    <link rel="icon" href="/public/img/favicon.ico">
+</head>
+
+<body cz-shortcut-listen="true">
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
+    <a class="navbar-brand"><img src="/public/img/globo_logo.png" style="width:120px;"></a>
+
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/paredao">Listar Paredões</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main role="main" class="container">
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <input type="hidden" id="elimination" ends-at="<%= endsAt %>">
+            <h1 class="jumbotron-heading">Informações sobre a eliminação "<%= name %>"</h1>
+            <p class="lead text-muted">Selecione abaixo um gráfico para visualizar as informações parciais deste paredão.</p>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="/public/img/pie.png">
+                        <div class="card-body">
+                            <p class="card-text">Esta página apresentará o resumo parcial do <strong>total de votos</strong> em geral deste paredão.</p>
+                            <hr>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="/admin/paredao/<%= id %>/resumo-geral" class="btn btn-primary btn-sm">Visualizar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="/public/img/linha.png">
+                        <div class="card-body">
+                            <p class="card-text">Esta página apresentará o resumo parcial do <strong>total de votos por hora</strong> deste paredão.</p>
+                            <hr>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary btn-sm">Visualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h2 class="card-text">Resumo do Paredão</h2>
+                            <hr>
+                            <span> <strong>Total de Participantes: </strong> <%= participants.length %> </span> <br>
+                            <span> <strong>Total de Votos: </strong> <%= totalOfVotes %> </span> <br>
+                            <span> <strong>Tempo restante: </strong> <span class="counter"></span> </span> <br>
+                            <hr>
+                            <% if (isOpen) { %>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-danger btn-sm">Encerrar Paredão</button>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+
+
+    var counterDown = function (date) {
+        // Set the date we're counting down to
+        var countDownDate = new Date(date).getTime();
+
+        if (countDownDate < new Date().getTime()) {
+            $('.counter').html('Paredão finalizado');
+            return false;
+        }
+
+        // Update the count down every 1 second
+        var counter = setInterval(function() {
+
+            var now = new Date().getTime();
+
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            $('.counter').html(hours + ":" + minutes + ":" + seconds + "");
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                $('.counter').html('Paredão finalizado');
+                clearInterval(counter);
+            }
+        }, 1000);
+    };
+
+
+    $(document).ready(function () {
+        let endsAt = $('#elimination').attr('ends-at');
+
+        // Active counterdown
+        counterDown(endsAt);
+    });
+
+</script>
+
+</body>
+
+</html>

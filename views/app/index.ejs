@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Informações do Paredão</title>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/Chart.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/elimination.css">
+    <link rel="icon" href="/public/img/favicon.ico">
+</head>
+
+<body cz-shortcut-listen="true">
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
+    <a class="navbar-brand"><img src="/public/img/globo_logo.png" style="width:120px;"></a>
+
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Total de Paredões: <%= result.length %></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <% for(var i = 0; i < result.length; i++) { %>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="/public/img/elimination.jpg">
+                        <div class="card-body">
+                            <hr>
+                            <h5 class="card-text"><strong>Nome: </strong> <%= result[i].name %></h5>
+                            <h5 class="card-text"><strong>Total de participantes: </strong> <%= result[i].participants.length %></h5>
+                            <hr>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="/votacao/<%= result[i]._id %>/" class="btn btn-primary btn-sm">Votar agora</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
