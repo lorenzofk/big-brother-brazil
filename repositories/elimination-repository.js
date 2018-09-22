@@ -112,9 +112,8 @@ module.exports = new class EliminationRepository {
         }
 
         return eliminationModel.findOneAndUpdate({
-                "_id": data.id,
                 "participants._id": data.participantId,
-                "endsAt": {$gte: new Date()},
+                "endsAt": { $gte: new Date() },
                 "isOpen": true
             },
             {

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Estatísticas de votos por hora</title>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/Chart.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/elimination.css">
+    <link rel="icon" href="/public/img/favicon.ico">
+</head>
+
+<body cz-shortcut-listen="true">
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
+    <a class="navbar-brand"><img src="/public/img/globo_logo.png" style="width:120px;"></a>
+
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/paredao/">Listar Paredões</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    <input type="hidden" id="elimination" value="<%= id %>">
+
+    <h1 class="text-center"> Resumo Parcial de Votos por Hora </h1>
+
+    <hr>
+
+    <div class="jumbotron">
+        <div class="results">
+            <canvas id="results" width="600" height="350"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        let id = $('#elimination').val();
+
+        $.get("/admin/resultados/votosPorHora/" + id, function(result) {
+
+            var periods = result.resume.map(function (item) {
+                return item.period;
+            });
+
+            var totalByPeriod = result.resume.map(function (item) {
+                return item.total;
+            });
+
+            new Chart($('#results'), {
+                type: 'line',
+                data: {
+                    labels: periods,
+                    datasets: [
+                        {
+                            data: totalByPeriod,
+                            label: "Votos por Hora",
+                            borderColor: "#3e95cd",
+                            fill: false
+                        }
+                    ]
+                }
+            });
+
+        });
+
+    });
+
+</script>
+
+</body>
+
+</html>

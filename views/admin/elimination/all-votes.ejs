@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Total de votos</title>
+    <title>Estatísticas do total de votos</title>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/Chart.js"></script>
@@ -36,23 +36,25 @@
     </div>
 </nav>
 
-<main role="main" class="container">
+<div class="container">
 
     <input type="hidden" id="elimination" value="<%= id %>">
 
     <h1 class="text-center"> Resumo Parcial do Total de Votos </h1>
+
     <hr>
+
     <h2 class="text-center"> Total de votos até o momento: <span class="total"></span> </h2>
-    <div class="jumbotron">
 
+    <hr>
+
+    <div class="jumbotron" style="background-color: white">
         <div class="results">
-
-            <canvas id="results" width="600" height="500"></canvas>
-
+            <canvas id="results" width="600" height="350"></canvas>
         </div>
-
     </div>
-</main>
+
+</div>
 
 <script>
 

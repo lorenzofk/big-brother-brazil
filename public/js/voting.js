@@ -42,8 +42,6 @@ $(document).ready(function () {
 
         selectedParticipant.id = $(this).attr('data-id');
         selectedParticipant.name = $(this).attr('data-name');
-
-        console.log(selectedParticipant);
     });
 
     $('.vote').click(function (e) {
