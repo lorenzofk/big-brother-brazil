@@ -29,9 +29,10 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
 // App routes
-var eliminationRoute = require('./routes/elimination-route');
+var appRoute = require('./routes/app-route');
 var adminRoute = require('./routes/admin-route');
 var pollRoute = require('./routes/poll-route');
+var eliminationRoute = require('./routes/elimination-route');
 
 // Static files
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
@@ -43,13 +44,13 @@ app.use('/public', express.static(__dirname + '/public'))
 app.use('/admin/', adminRoute);
 app.use('/votacao', pollRoute);
 app.use('/paredao', eliminationRoute);
-
+app.use('/', appRoute);
 
 app.use('*', function (req, res) {
     res.render('errors/404');
 });
 
-
+/*
 if (cluster.isMaster) {
     console.log('Master process is running');
 
@@ -63,8 +64,11 @@ if (cluster.isMaster) {
     var server = app.listen(3000, function () {
         console.log('Server is running on port:', server.address().port + ' by worker: ' + cluster.worker.id);
     });
-}
+}*/
 
+var server = app.listen(3000, function () {
+    console.log('Server is running on port:', server.address().port);
+});
 
 module.exports = {
     server: server,

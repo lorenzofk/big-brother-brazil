@@ -1,7 +1,6 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var objectId = mongoose.Types.ObjectId;
 var eliminationRepository = require('../repositories/elimination-repository');
 
 exports.showElimination = function (req, res) {
@@ -16,16 +15,21 @@ exports.showElimination = function (req, res) {
 
         eliminationRepository.getById(id)
             .then(function (result) {
-                return res.render('index', {id: result._id, endsAt: result.endsAt, participants: result.participants})
+                return res.render('app/voting', {
+                    id: result._id,
+                    endsAt: result.endsAt,
+                    participants:
+                    result.participants}
+                );
             }).catch(function (e) {
-                return res.render('errors/404');
-            });
+            return res.render('errors/404');
+        });
 
     } catch (err) {
         return res.render('errors/404');
     }
 
-}
+};
 
 exports.vote = function (req, res) {
 

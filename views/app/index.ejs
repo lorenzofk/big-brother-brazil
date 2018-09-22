@@ -26,7 +26,7 @@
     </div>
 </nav>
 
-<main role="main" class="container">
+<div class="container">
 
     <div class="album py-5 bg-light">
         <div class="container">
@@ -39,11 +39,10 @@
                             <hr>
                             <h5 class="card-text"><strong>Nome: </strong> <%= result[i].name %></h5>
                             <h5 class="card-text"><strong>Total de participantes: </strong> <%= result[i].participants.length %></h5>
-                            <h5 class="card-text"><strong>Total de votos: </strong> <%= result[i].totalOfVotes.toLocaleString() %></h5>
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <a href="/admin/paredao/<%= result[i]._id %>/" class="btn btn-primary btn-sm">Visualizar</a>
+                                    <a href="/votacao/<%= result[i]._id %>/" class="btn btn-primary btn-sm">Votar agora</a>
                                 </div>
                             </div>
                         </div>
@@ -53,52 +52,7 @@
             </div>
         </div>
     </div>
-
-</main>
-
-<script>
-
-
-    var counterDown = function (date) {
-        // Set the date we're counting down to
-        var countDownDate = new Date(date).getTime();
-
-        if (countDownDate < new Date().getTime()) {
-            $('.counter').html('Paredão finalizado');
-            return false;
-        }
-
-        // Update the count down every 1 second
-        var counter = setInterval(function() {
-
-            var now = new Date().getTime();
-
-            var distance = countDownDate - now;
-
-            // Time calculations for days, hours, minutes and seconds
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            $('.counter').html(hours + ":" + minutes + ":" + seconds + "");
-
-            // If the count down is finished, write some text
-            if (distance < 0) {
-                $('.counter').html('Paredão finalizado');
-                clearInterval(counter);
-            }
-        }, 1000);
-    };
-
-
-    $(document).ready(function () {
-        let endsAt = $('#elimination').attr('ends-at');
-
-        // Active counterdown
-        counterDown(endsAt);
-    });
-
-</script>
+</div>
 
 </body>
 

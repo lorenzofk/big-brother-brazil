@@ -4,6 +4,26 @@ var eliminationRepository = require('../repositories/elimination-repository');
 
 exports.index = function (req, res) {
 
+    try {
+
+        eliminationRepository.getAll()
+            .then(function (result) {
+                console.log(result);
+                return res.render('admin/elimination/index', {
+                    result: result
+                });
+            }).catch(function (e) {
+            return res.render('errors/404');
+        });
+
+    } catch (err) {
+        return res.render('errors/404');
+    }
+
+};
+
+exports.show = function (req, res) {
+
     let id = req.params.id;
 
     if (id === undefined || id.length === 0) {
@@ -14,8 +34,7 @@ exports.index = function (req, res) {
 
         eliminationRepository.getById(id)
             .then(function (result) {
-                console.log(result);
-                return res.render('admin/elimination/index', {
+                return res.render('admin/elimination/show', {
                     id: result._id,
                     name: result.name,
                     totalOfVotes: result.totalOfVotes.toLocaleString(),
@@ -41,7 +60,7 @@ exports.listResumeOfVotes = function (req, res) {
         return res.status(404);
     }
 
-    return res.render('admin/votes-by-hour', { id: id });
+    return res.render('admin/elimination/all-votes', { id: id });
 };
 
 exports.showResume = function (req, res) {

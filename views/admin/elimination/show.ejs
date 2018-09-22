@@ -20,7 +20,7 @@
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Total de Paredões: <%= result.length %></a>
+                <a class="nav-link" href="/admin/paredao">Listar Paredões</a>
             </li>
         </ul>
     </div>
@@ -28,28 +28,64 @@
 
 <main role="main" class="container">
 
+    <section class="jumbotron text-center">
+        <div class="container">
+            <input type="hidden" id="elimination" ends-at="<%= endsAt %>">
+            <h1 class="jumbotron-heading">Informações sobre a eliminação "<%= name %>"</h1>
+            <p class="lead text-muted">Selecione abaixo um gráfico para visualizar as informações parciais deste paredão.</p>
+        </div>
+    </section>
+
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row">
-                <% for(var i = 0; i < result.length; i++) { %>
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
-                        <img class="card-img-top" src="/public/img/elimination.jpg">
+                        <img class="card-img-top" src="/public/img/pie.png">
                         <div class="card-body">
-                            <hr>
-                            <h5 class="card-text"><strong>Nome: </strong> <%= result[i].name %></h5>
-                            <h5 class="card-text"><strong>Total de participantes: </strong> <%= result[i].participants.length %></h5>
-                            <h5 class="card-text"><strong>Total de votos: </strong> <%= result[i].totalOfVotes.toLocaleString() %></h5>
+                            <p class="card-text">Esta página apresentará o resumo parcial do <strong>total de votos</strong> em geral deste paredão.</p>
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <a href="/admin/paredao/<%= result[i]._id %>/" class="btn btn-primary btn-sm">Visualizar</a>
+                                    <a href="/admin/paredao/<%= id %>/resumo-geral" class="btn btn-primary btn-sm">Visualizar</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <% } %>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="/public/img/linha.png">
+                        <div class="card-body">
+                            <p class="card-text">Esta página apresentará o resumo parcial do <strong>total de votos por hora</strong> deste paredão.</p>
+                            <hr>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary btn-sm">Visualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h2 class="card-text">Resumo do Paredão</h2>
+                            <hr>
+                            <span> <strong>Total de Participantes: </strong> <%= participants.length %> </span> <br>
+                            <span> <strong>Total de Votos: </strong> <%= totalOfVotes %> </span> <br>
+                            <span> <strong>Tempo restante: </strong> <span class="counter"></span> </span> <br>
+                            <hr>
+                            <% if (isOpen) { %>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-danger btn-sm">Encerrar Paredão</button>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
