@@ -8,7 +8,6 @@ exports.index = function (req, res) {
 
         eliminationRepository.getAll()
             .then(function (result) {
-                console.log(result);
                 return res.render('admin/elimination/index', {
                     result: result
                 });
@@ -61,6 +60,18 @@ exports.listResumeOfVotes = function (req, res) {
     }
 
     return res.render('admin/elimination/all-votes', { id: id });
+};
+
+exports.listResumeOfVotesByHour = function (req, res) {
+
+    let id = req.params.id;
+
+    if (id === undefined || id.length === 0) {
+        return res.status(404);
+    }
+
+    return res.render('admin/elimination/votes-by-hour', { id: id });
+
 };
 
 exports.showResume = function (req, res) {
@@ -116,13 +127,28 @@ exports.showResumeByHour = function (req, res) {
 
         eliminationRepository.getResumeByHour(id)
             .then(function (response) {
-                return res.json({'resume': response});
-            }).catch(function (err) {
-                return res.status(500).send(err);
+
+                var resume = response.map(function (item) {
+
+                    let day = item._id.d;
+                    let month = (item._id.m);
+                    let hour = (item._id.h < 10) ? "0" + item._id.h : item._id.h;
+
+                    return {
+                        period: day + '/' + month + ' ' + hour + 'h',
+                        total: item.total
+                    };
+
+                });
+
+                return res.json({'resume': resume});
+
+            }).catch(function (e) {
+                return res.status(500).send({'msg': e.message});
             });
 
-    } catch (e) {
-        return res.status(500).send(e);
+    } catch (err) {
+        return res.status(500).send({'msg': err.message});
     }
 
 };

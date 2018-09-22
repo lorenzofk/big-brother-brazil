@@ -8,7 +8,6 @@ exports.index = function (req, res) {
 
         eliminationRepository.getAll()
             .then(function (result) {
-                console.log(result);
                 return res.render('app/index', {
                     result: result
                 });

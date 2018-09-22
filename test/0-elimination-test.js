@@ -162,8 +162,6 @@ describe('(1) - Paredão BBB', function () {
                     .send(model)
                     .end(function (err, res) {
 
-                        console.log(res.body);
-
                         if (err) done(err);
 
                         res.should.have.status(200);

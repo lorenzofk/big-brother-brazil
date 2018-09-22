@@ -50,8 +50,8 @@ app.use('*', function (req, res) {
     res.render('errors/404');
 });
 
-/*
-if (cluster.isMaster) {
+
+/*if (cluster.isMaster) {
     console.log('Master process is running');
 
     // Fork workers
