@@ -7,53 +7,25 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/Chart.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/public/css/poll.css">
+    <link rel="stylesheet" href="/public/css/elimination.css">
     <link rel="icon" href="/public/img/favicon.ico">
-
-    <style>
-
-        body {
-            min-height: 75rem;
-            padding-top: 4.5rem;
-        }
-
-    </style>
-
 </head>
 
-<body cz-shortcut-listen="true">
+<body>
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-
-    <a class="navbar-brand" href="#"><img src="/public/img/globo_logo.png" style="width:120px;"></a>
-
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/admin/paredao">Listar Paredões</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+<%- include ../../partials/elimination-navbar %>
 
 <div class="container">
-
     <input type="hidden" id="elimination" value="<%= id %>">
-
     <h1 class="text-center"> Resumo Parcial do Total de Votos </h1>
-
     <hr>
-
     <h2 class="text-center"> Total de votos até o momento: <span class="total"></span> </h2>
-
     <hr>
-
     <div class="jumbotron" style="background-color: white">
         <div class="results">
             <canvas id="results" width="600" height="350"></canvas>
         </div>
     </div>
-
 </div>
 
 <script>

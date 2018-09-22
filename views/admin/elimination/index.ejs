@@ -11,23 +11,11 @@
     <link rel="icon" href="/public/img/favicon.ico">
 </head>
 
-<body cz-shortcut-listen="true">
+<body>
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<%- include ../../partials/index-navbar %>
 
-    <a class="navbar-brand"><img src="/public/img/globo_logo.png" style="width:120px;"></a>
-
-    <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Total de Paredões: <%= result.length %></a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<main role="main" class="container">
-
+<div class="container">
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row">
@@ -53,11 +41,9 @@
             </div>
         </div>
     </div>
-
-</main>
+</div>
 
 <script>
-
 
     var counterDown = function (date) {
         // Set the date we're counting down to
