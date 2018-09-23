@@ -158,31 +158,7 @@ exports.vote = function (req, res) {
                     });
                 }
 
-                eliminationRepository.getResume(vote)
-                    .then(function (response) {
-
-                        if (response[0] === undefined) {
-                            return res.status(404).json({'msg': "Error in calculating votes."})
-                        }
-
-                        let total = response[0].totalOfVotes;
-
-                        let resume = response[0].participants.map(function (item) {
-
-                            let pct = parseFloat((item.totalOfVotes / total).toFixed(2)) || 0;
-
-                            return {
-                                id: item._id,
-                                name: item.name,
-                                percent: pct
-                            };
-                        });
-
-                        return res.json({'resume': resume, 'total': total});
-
-                    }).catch(function (e) {
-                        return res.status(500).send({'msg': e.message});
-                    });
+                return res.status(200).json({'resume': [], 'total': 0});
 
             }).catch(function (err) {
                 return res.status(500).send({'msg': err.message});
