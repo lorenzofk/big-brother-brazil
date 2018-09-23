@@ -12,10 +12,29 @@
     <link rel="stylesheet" href="/public/css/poll.css">
     <link rel="icon" href="/public/img/favicon.ico'">
     <style>
+
         body {
             min-height: 75rem;
             padding-top: 4.5rem;
         }
+
+        .vote-again {
+            margin-top: -10px;
+            margin-left: 10px;
+            color: white !important;
+        }
+
+        .results h3 {
+             font-size: 30px;
+             display: inline-block;
+             animation: type .5s alternate infinite;
+        }
+
+        @keyframes type{
+            from{box-shadow: inset -3px 0px 0px #888;}
+            to{box-shadow: inset -3px 0px 0px transparent;}
+        }
+
     </style>
 
 </head>
@@ -135,10 +154,16 @@
 
         <hr>
 
-        <div id="footer" class="container-fluid">
-            <h4 class="text-center">A votação será encerrada em <span class="counter"></span> </h4>
+        <div class="footer">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-center">
+                        <h3 class="results" style="padding-top:25px;">A votação será encerrada em <span class="counter"></span> </h3>
+                        <a href="/votacao/<%= id %>" class="vote-again btn btn-primary btn-md"> Votar novamente </a>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
 
 </div>
