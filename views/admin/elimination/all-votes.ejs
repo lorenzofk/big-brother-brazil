@@ -36,7 +36,9 @@
 
         $.get("/admin/resultados/votos/" + id, function(result) {
 
-            new Chart($('#results'), {
+            let element = $('#results');
+
+            new Chart(element, {
                 type: 'doughnut',
                 data: {
                     datasets: [{

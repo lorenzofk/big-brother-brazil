@@ -58,7 +58,9 @@ $(document).ready(function () {
             type: 'post'
         }).done(function(result) {
 
-            new Chart($('#results'), {
+            let element = $('#results');
+
+            new Chart(element, {
                 type: 'doughnut',
                 data: {
                     datasets: [{
@@ -81,19 +83,17 @@ $(document).ready(function () {
                     circumference: 1.5 * Math.PI,
                     rotation: 0.75 * Math.PI,
                     maintainAspectRatio: false,
-                    legend: {
-                        display: true
-                    },
+                    legend: { display: true },
                     title: {
                         display: true,
-                        text: 'Total Parcial de Votos'
+                        text: 'TOTAL PARCIAL DE VOTOS'
                     },
                 }
             });
 
-            $('.main').hide();
-            $('.container-results .message').html('<strong>Parabéns! </strong> Seu voto para <strong>'+ selectedParticipant.name + '</strong> foi enviado com sucesso!</strong>');
-            $('.container-results').show();
+            $('.voting').hide();
+            $('.results .message').html('<strong>Parabéns! </strong> Seu voto para <strong>'+ selectedParticipant.name + '</strong> foi enviado com sucesso!</strong>');
+            $('.results').show();
 
 
         }).fail(function(err){

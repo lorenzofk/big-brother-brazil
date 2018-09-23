@@ -24,7 +24,7 @@
 
 <%- include ../partials/index-navbar %>
 
-<div class="container">
+<div class="container voting">
 
     <input id="elimination" type="hidden" value="<%= id %>" ends-at="<%= endsAt %>">
 
@@ -78,56 +78,57 @@
 
     </div>
 
-    </div>
 </div>
 
-<div class="container-results" style="display: none;">
+<div class="container results" style="display: none;">
 
-    <div class="row">
-
-        <div class="col-sm-12">
-
-            <div class="bbb-container-top">
-                <span class="sprite logo">&nbsp;</span>
-                <span>QUEM DEVE SER <strong>ELIMINADO</strong>?</span>
-            </div>
-
-        </div>
-
-    </div>
-
-    <hr class="dotted-line"/>
-
-    <div class="chart">
+    <div class="album py-3 bg-light">
 
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="text-center message"></h4>
+                <div class="bbb-container-top">
+                    <span class="sprite logo">&nbsp;</span>
+                    <span>QUEM DEVE SER <strong>ELIMINADO</strong>?</span>
+                </div>
             </div>
         </div>
 
         <hr class="dotted-line"/>
 
-        <div class="row">
+        <div class="chart">
 
-            <div class="col-sm-4">
-                <div class="participant-1 photo-results"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="text-center message"></h4>
+                </div>
             </div>
 
-            <div class="col-sm-4">
-                <canvas id="results" width="600" height="500"></canvas>
-            </div>
+            <hr class="dotted-line"/>
 
-            <div class="col-sm-4">
-                <div class="participant-2 photo-results"></div>
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <div class="participant-1-results"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <canvas id="results" width="600" height="500"></canvas>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="participant-2-results"></div>
+                </div>
+
             </div>
 
         </div>
 
-    </div>
+        <hr>
 
-    <div id="footer" class="container-fluid">
-        <h4 class="text-center">A votação será encerrada em <span class="counter"></span> </h4>
+        <div id="footer" class="container-fluid">
+            <h4 class="text-center">A votação será encerrada em <span class="counter"></span> </h4>
+        </div>
+
     </div>
 
 </div>
