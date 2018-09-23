@@ -28,9 +28,6 @@ app.use(bodyParser.json());
 // Sets the view engine
 app.set('view engine', 'ejs');
 
-// Sets the port
-app.set('port', process.env.PORT || 3000);
-
 // App routes
 var appRoute = require('./routes/app-route');
 var adminRoute = require('./routes/admin-route');
@@ -69,7 +66,7 @@ app.use('*', function (req, res) {
     });
 }*/
 
-var server = app.listen(app.get('port'), function () {
+var server = app.listen(3000, function () {
     console.log('Server is running on port:', server.address().port);
 });
 

@@ -44,7 +44,8 @@ $(document).ready(function () {
         selectedParticipant.name = $(this).attr('data-name');
     });
 
-    $('.vote').click(function (e) {
+    $("#voting-form").on("submit", function(e) {
+        e.preventDefault();
 
         let id = $('#elimination').val();
 
@@ -54,8 +55,13 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: "/votacao/" + id + '/' + selectedParticipant.id,
-            type: 'post'
+            url: "/votacao/",
+            type: 'post',
+            data: {
+                id: id,
+                captcha: grecaptcha.getResponse(),
+                participantId: selectedParticipant.id
+            }
         }).done(function(result) {
 
             let element = $('#results');
@@ -101,5 +107,4 @@ $(document).ready(function () {
         });
 
     });
-
 });
