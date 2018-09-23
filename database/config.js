@@ -4,9 +4,9 @@ module.exports = {
 
     mongodb: {
 
-        url: 'mongodb://localhost:27017',
+        url: process.env.MONGODB_URI,
 
-        databaseName: "bbb_test",
+        databaseName: "bbb",
 
         options: {
             useNewUrlParser: true,

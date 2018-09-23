@@ -13,8 +13,11 @@ var numCPUs = require('os').cpus().length;
 
 var app = express();
 
+var mongoDB = process.env.MONGODB_URI || "mongodb://heroku_0mp8jcsg:svvmu3h7sta6saodga4o7uobk6@ds111993.mlab.com:11993/heroku_0mp8jcsg";
+var port = process.env.PORT || 3000;
+
 // MongoDB connection
-mongoose.connect('mongodb://127.0.0.1/bbb', {
+mongoose.connect(mongoDB, {
     useNewUrlParser: true
 });
 
@@ -66,7 +69,7 @@ app.use('*', function (req, res) {
     });
 }*/
 
-var server = app.listen(3000, function () {
+var server = app.listen(port, function () {
     console.log('Server is running on port:', server.address().port);
 });
 

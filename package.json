@@ -7,8 +7,10 @@
     "test": "mocha"
   },
   "scripts": {
-    "test": "nyc --reporter=text mocha --exit",
-    "dev": "nodemon app.js"
+    "dev-test": "NODE_ENV=development MONGODB_URI='mongodb://127.0.0.1/bbb' nyc --reporter=text mocha --exit",
+    "test": "mocha --exit",
+    "dev": "NODE_ENV=development MONGODB_URI='mongodb://127.0.0.1/bbb' nodemon app.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
