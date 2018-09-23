@@ -6,6 +6,7 @@ router.use(function (req, res, next) {
     next();
 });
 
+router.post('/', pollController.voteByHuman);
 router.get('/:id', pollController.showElimination);
 router.post('/:id/:participantId', pollController.vote);
 
