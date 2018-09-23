@@ -66,11 +66,11 @@ Utilizei o **loader.io** para configurar e executar estes testes. Nas imagens ab
 
 Os três testes simulados foram executados durante um período de **30** segundos.
 
-![400 votos/seg](/public/img/teste_1.png "400 votos/seg")
+![400 votos/seg](https://github.com/SelecaoGlobocom/Lorenzo-Kniss/blob/master/public/img/1.png "400 votos/seg")
 
 O primeiro teste foi simulado com **400** clientes votando por segundo. Todos os votos foram computados com sucesso e não houve erros na execução.
 
-![500 votos/seg](/public/img/teste_2.png "500 votos/seg")
+![500 votos/seg](https://github.com/SelecaoGlobocom/Lorenzo-Kniss/blob/master/public/img/2.png "500 votos/seg")
 
 No segundo teste foi simulado um total de **500** clientes simultâneos realizando votos a cada segundo. 
 
@@ -102,14 +102,14 @@ Após o build ser concluído execute o seguinte comando para realizar a criaçã
 
 A organização da aplicação web está dividida em duas áreas diferentes: **área comum para votação** e **área de administrador**.
 
-#####Área de votações
+######Área de votações
 
 | URL | Descrição |
 | ------ | ----------- |
 | **/**   | Página Principal - Listagem de paredões em andamento. |
 | **/votacao/:id** | Página para votação e escolha do participante. |
 
-#####Área de votações
+######Área de votações
 
 | URL | Descrição |
 | ------ | ----------- |
