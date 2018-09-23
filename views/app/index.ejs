@@ -9,6 +9,22 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/css/elimination.css">
     <link rel="icon" href="/public/img/favicon.ico">
+
+    <style>
+
+        .not-found h1 {
+            font-size: 50px;
+            display: inline-block;
+            animation: type .5s alternate infinite;
+        }
+
+        @keyframes type{
+            from{box-shadow: inset -3px 0px 0px #888;}
+            to{box-shadow: inset -3px 0px 0px transparent;}
+        }
+
+    </style>
+
 </head>
 
 <body>
@@ -19,6 +35,17 @@
     <div class="album py-5 bg-light">
         <div class="container">
             <div class="row">
+
+                <% if (result.length === 0) { %>
+
+                <div class="col-md-12">
+                    <div class="not-found text-center">
+                        <h1> Não existem paredões em andamento. :/ </h1>
+                    </div>
+                </div>
+
+                <% } %>
+
                 <% for(var i = 0; i < result.length; i++) { %>
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
