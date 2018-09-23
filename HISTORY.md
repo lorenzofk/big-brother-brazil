@@ -76,7 +76,7 @@ No segundo teste foi simulado um total de **500** clientes simultâneos realizan
 
 Embora todos os votos tenham sido computados corretamente, foi possível observar que o tempo de resposta aumentou bastante comparado ao primeiro teste.
 
-![1000 votos/seg](/public/img/teste_3.png "1000 votos/seg")
+![1k votos/seg](https://github.com/SelecaoGlobocom/Lorenzo-Kniss/blob/master/public/img/3.png "1k votos/seg")
 
 O terceiro teste não foi tão performático quanto o esperado. Foram simulados ***1000*** clientes votando a cada segundo.
 
@@ -102,14 +102,14 @@ Após o build ser concluído execute o seguinte comando para realizar a criaçã
 
 A organização da aplicação web está dividida em duas áreas diferentes: **área comum para votação** e **área de administrador**.
 
-######Área de votações
+**Área de votações**
 
 | URL | Descrição |
 | ------ | ----------- |
 | **/**   | Página Principal - Listagem de paredões em andamento. |
 | **/votacao/:id** | Página para votação e escolha do participante. |
 
-######Área de votações
+**Área de administrador**
 
 | URL | Descrição |
 | ------ | ----------- |
