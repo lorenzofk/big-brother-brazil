@@ -1,1 +1,1 @@
-web: node app.js-m 5 app.js
+web: node -m 5 app.js
