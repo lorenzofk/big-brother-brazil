@@ -21,12 +21,15 @@ mongoose.connect('mongodb://127.0.0.1/bbb', {
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
 
-// Middleware to parse the responses
+// Sets the middleware to parse responses
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// Set the view engine
+// Sets the view engine
 app.set('view engine', 'ejs');
+
+// Sets the port
+app.set('port', process.env.PORT || 3000);
 
 // App routes
 var appRoute = require('./routes/app-route');
@@ -34,12 +37,12 @@ var adminRoute = require('./routes/admin-route');
 var pollRoute = require('./routes/poll-route');
 var eliminationRoute = require('./routes/elimination-route');
 
-// Static files
+// Sets the static files
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist'));
 app.use('/js', express.static(__dirname + '/node_modules/chart.js/dist'));
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
-app.use('/public', express.static(__dirname + '/public'))
+app.use('/public', express.static(__dirname + '/public'));
 
 app.use('/admin/', adminRoute);
 app.use('/votacao', pollRoute);
@@ -66,7 +69,7 @@ app.use('*', function (req, res) {
     });
 }*/
 
-var server = app.listen(3000, function () {
+var server = app.listen(app.get('port'), function () {
     console.log('Server is running on port:', server.address().port);
 });
 

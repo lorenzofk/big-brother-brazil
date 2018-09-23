@@ -9,60 +9,69 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/css/poll.css">
     <link rel="icon" href="/public/img/favicon.ico'">
+
+
+    <style>
+        body {
+            min-height: 75rem;
+            padding-top: 4.5rem;
+        }
+    </style>
+
 </head>
 
 <body>
 
-<div class="main">
+<%- include ../partials/index-navbar %>
 
-    <div class="container">
+<div class="container voting">
+
+    <input id="elimination" type="hidden" value="<%= id %>" ends-at="<%= endsAt %>">
+
+    <div class="album py-3 bg-light">
 
         <div class="row">
-
             <div class="col-sm-12">
-
                 <div class="bbb-container-top">
                     <span class="sprite logo">&nbsp;</span>
                     <span>QUEM DEVE SER <strong>ELIMINADO</strong>?</span>
                 </div>
-
             </div>
-
         </div>
 
         <hr class="dotted-line"/>
 
         <div class="row">
 
-            <input id="elimination" type="hidden" value="<%= id %>" ends-at="<%= endsAt %>">
+            <div class="col-md-2"> </div>
 
             <% for(var i = 0; i < participants.length; i++) {%>
 
-                <div class="col-sm-6">
-                    <div class="participant">
-                        <span class="participant-name"> <%= participants[i].name %> </span>
-                        <div class="participant-<%= i+1 %> photo" data-id="<%= participants[i]._id %>" data-name="<%= participants[i].name %>"></div>
-
-                        <div class="info">
-                            <span>
-                                Para eliminar o <strong><%= participants[i].name %></strong> pelo telefone
-                                disque <strong>0800-123-00<%= i+1%></strong> ou mande um SMS para <strong>800<%=i+1%></strong>
-                            </span>
-                        </div>
-
-                    </div>
+            <div class="col-md-4">
+                <span class="participant-name"> <%= participants[i].name %> </span>
+                <div class="card">
+                    <img class="participant-<%= i+1 %> photo" data-id="<%= participants[i]._id %>" data-name="<%= participants[i].name %>">
                 </div>
+                <div class="d-flex" style="padding-top: 10px;">
+                    <span class="text-center">
+                        Para eliminar o <strong><%= participants[i].name %></strong> pelo telefone
+                        disque <strong>0800-123-00<%= i+1%></strong> ou mande um SMS para <strong>800<%=i+1%></strong>
+                    </span>
+                </div>
+            </div>
 
             <% } %>
 
-            <div class="footer">
+        </div>
 
-                <div class="row">
-                    <div class="col-sm-12 text-center">
-                        <button class="vote btn btn-primary"> Envie seu voto agora </button>
-                    </div>
+        <hr class="dotted-line"/>
+
+        <div class="footer">
+
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <button class="vote btn btn-primary"> Envie seu voto agora </button>
                 </div>
-
             </div>
 
         </div>
@@ -71,53 +80,55 @@
 
 </div>
 
-<div class="container-results" style="display: none;">
+<div class="container results" style="display: none;">
 
-    <div class="row">
-
-        <div class="col-sm-12">
-
-            <div class="bbb-container-top">
-                <span class="sprite logo">&nbsp;</span>
-                <span>QUEM DEVE SER <strong>ELIMINADO</strong>?</span>
-            </div>
-
-        </div>
-
-    </div>
-
-    <hr class="dotted-line"/>
-
-    <div class="chart">
+    <div class="album py-3 bg-light">
 
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="text-center message"></h4>
+                <div class="bbb-container-top">
+                    <span class="sprite logo">&nbsp;</span>
+                    <span>QUEM DEVE SER <strong>ELIMINADO</strong>?</span>
+                </div>
             </div>
         </div>
 
         <hr class="dotted-line"/>
 
-        <div class="row">
+        <div class="chart">
 
-            <div class="col-sm-4">
-                <div class="participant-1 photo-results"></div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 class="text-center message"></h4>
+                </div>
             </div>
 
-            <div class="col-sm-4">
-                <canvas id="results" width="600" height="500"></canvas>
-            </div>
+            <hr class="dotted-line"/>
 
-            <div class="col-sm-4">
-                <div class="participant-2 photo-results"></div>
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <div class="participant-1-results"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <canvas id="results" width="600" height="500"></canvas>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="participant-2-results"></div>
+                </div>
+
             </div>
 
         </div>
 
-    </div>
+        <hr>
 
-    <div id="footer" class="container-fluid">
-        <h4 class="text-center">A votação será encerrada em <span class="counter"></span> </h4>
+        <div id="footer" class="container-fluid">
+            <h4 class="text-center">A votação será encerrada em <span class="counter"></span> </h4>
+        </div>
+
     </div>
 
 </div>

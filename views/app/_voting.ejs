@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Votação Big Brother Brasil</title>
+    <meta charset="utf-8">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/Chart.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/poll.css">
+    <link rel="icon" href="/public/img/favicon.ico'">
+</head>
+
+<body>
+
+<div class="main">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-sm-12">
+
+                <div class="bbb-container-top">
+                    <span class="sprite logo">&nbsp;</span>
+                    <span>QUEM DEVE SER <strong>ELIMINADO</strong>?</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <hr class="dotted-line"/>
+
+        <div class="row">
+
+            <input id="elimination" type="hidden" value="<%= id %>" ends-at="<%= endsAt %>">
+
+            <% for(var i = 0; i < participants.length; i++) {%>
+
+                <div class="col-sm-6">
+                    <div class="participant">
+                        <span class="participant-name"> <%= participants[i].name %> </span>
+                        <div class="participant-<%= i+1 %> photo" data-id="<%= participants[i]._id %>" data-name="<%= participants[i].name %>"></div>
+
+                        <div class="info">
+                            <span>
+                                Para eliminar o <strong><%= participants[i].name %></strong> pelo telefone
+                                disque <strong>0800-123-00<%= i+1%></strong> ou mande um SMS para <strong>800<%=i+1%></strong>
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+            <% } %>
+
+            <div class="footer">
+
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <button class="vote btn btn-primary"> Envie seu voto agora </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container-results" style="display: none;">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <div class="bbb-container-top">
+                <span class="sprite logo">&nbsp;</span>
+                <span>QUEM DEVE SER <strong>ELIMINADO</strong>?</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr class="dotted-line"/>
+
+    <div class="chart">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="text-center message"></h4>
+            </div>
+        </div>
+
+        <hr class="dotted-line"/>
+
+        <div class="row">
+
+            <div class="col-sm-4">
+                <div class="participant-1 photo-results"></div>
+            </div>
+
+            <div class="col-sm-4">
+                <canvas id="results" width="600" height="500"></canvas>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="participant-2 photo-results"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="footer" class="container-fluid">
+        <h4 class="text-center">A votação será encerrada em <span class="counter"></span> </h4>
+    </div>
+
+</div>
+
+<script src="/public/js/voting.js"></script>
+
+</body>
+
+</html>
