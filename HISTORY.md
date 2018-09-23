@@ -66,17 +66,17 @@ Utilizei o **loader.io** para configurar e executar estes testes. Nas imagens ab
 
 Os três testes simulados foram executados durante um período de **30** segundos.
 
-![400 votos/seg](/public/img/logo.png "400 votos/seg")
+![400 votos/seg](/public/img/teste_1.png "400 votos/seg")
 
 O primeiro teste foi simulado com **400** clientes votando por segundo. Todos os votos foram computados com sucesso e não houve erros na execução.
 
-![500 votos/seg](/public/img/logo.png "500 votos/seg")
+![500 votos/seg](/public/img/teste_2.png "500 votos/seg")
 
 No segundo teste foi simulado um total de **500** clientes simultâneos realizando votos a cada segundo. 
 
 Embora todos os votos tenham sido computados corretamente, foi possível observar que o tempo de resposta aumentou bastante comparado ao primeiro teste.
 
-![1000 votos/seg](/public/img/logo.png "1000 votos/seg")
+![1000 votos/seg](/public/img/teste_3.png "1000 votos/seg")
 
 O terceiro teste não foi tão performático quanto o esperado. Foram simulados ***1000*** clientes votando a cada segundo.
 
