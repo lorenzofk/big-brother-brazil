@@ -4,6 +4,9 @@ var mongoose = require('mongoose');
 var request = require('request');
 var eliminationRepository = require('../repositories/elimination-repository');
 
+require('dotenv').config();
+
+
 exports.showElimination = function (req, res) {
 
     let id = req.params.id;
@@ -53,8 +56,8 @@ exports.voteByHuman = function (req, res) {
 
     try {
 
-        var secretKey = '6Le2XnAUAAAAAMYhdqmiTGeO5IaU-Wb9MQzpnXXZ';
-        var urlVerify = 'https://www.google.com/recaptcha/api/siteverify';
+        var secretKey = process.env.GOOGLE_SECRET_KEY;
+        var urlVerify = process.env.GOOGLE_SITE_VERIFY;
 
         if ( typeof recaptcha === undefined
             || recaptcha === ''

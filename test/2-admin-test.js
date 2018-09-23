@@ -94,21 +94,39 @@ describe('(3) - Resultados Parciais BBB', function () {
 
         it('it should GET all votes group by hour from a specific elimination', function (done) {
 
-            chai.request(server)
-                .get('/paredao')
-                .end(function (err, res) {
+            let start = new Date();
+            let end   = new Date();
 
-                    if (err) done(err);
+            end.setDate(start.getDate() + 1);
 
-                    chai.request(server)
-                        .get('/admin/resultados/votosPorHora/' + res.body[0]._id)
-                        .end(function (err, res) {
-                            res.should.have.status(200);
-                            res.body.should.be.a('object');
-                            res.body.should.be.have.property('resume');
-                            done();
-                        });
-                });
+            let model = new eliminationModel({
+                name: "Paredão Resumo",
+                participants: [{ name: "Teste_123" }, { name: "Teste_2" }],
+                startsAt: start,
+                endsAt: end
+            });
+
+            model.save(function (err) {
+
+                if (err) done(err);
+
+                chai.request(server)
+                    .get('/paredao')
+                    .end(function (err, res) {
+
+                        if (err) done(err);
+
+                        chai.request(server)
+                            .get('/admin/resultados/votosPorHora/' + res.body[0]._id)
+                            .end(function (err, res) {
+                                res.should.have.status(200);
+                                res.body.should.be.a('object');
+                                res.body.should.be.have.property('resume');
+                                done();
+                            });
+                    });
+
+            });
 
         });
 
@@ -118,22 +136,39 @@ describe('(3) - Resultados Parciais BBB', function () {
 
         it('it should GET all votes from one participant', function (done) {
 
-            chai.request(server)
-                .get('/paredao')
-                .end(function (err, res) {
+            let start = new Date();
+            let end   = new Date();
 
-                    if (err) done(err);
+            end.setDate(start.getDate() + 1);
 
-                    chai.request(server)
-                        .get('/admin/resultados/votos/' + res.body[0]._id + '/' + res.body[0].participants[0]._id)
-                        .end(function (err, res) {
-                            res.should.have.status(200);
-                            res.body.should.be.a('object');
-                            res.body.should.be.have.property('resume');
-                            done();
-                        });
+            let model = new eliminationModel({
+                name: "Paredão Resumo",
+                participants: [{ name: "Teste_123" }, { name: "Teste_2" }],
+                startsAt: start,
+                endsAt: end
+            });
 
-                });
+            model.save(function (err) {
+
+                if (err) done(err);
+
+                chai.request(server)
+                    .get('/paredao/')
+                    .end(function (err, res) {
+
+                        if (err) done(err);
+
+                        chai.request(server)
+                            .get('/admin/resultados/votos/' + res.body[0]._id + '/' + res.body[0].participants[0]._id)
+                            .end(function (err, res) {
+                                res.should.have.status(200);
+                                res.body.should.be.a('object');
+                                res.body.should.be.have.property('resume');
+                                done();
+                            });
+
+                    });
+            });
 
         });
 
