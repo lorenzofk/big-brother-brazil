@@ -6,7 +6,7 @@ module.exports = {
 
         url: process.env.MONGODB_URI,
 
-        databaseName: "bbb",
+        databaseName: process.env.DATABASE_NAME,
 
         options: {
             useNewUrlParser: true,

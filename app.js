@@ -11,13 +11,24 @@ var mongoose   = require('mongoose');
 var cluster = require('cluster');
 var numCPUs = require('os').cpus().length;
 
+// App routes
+var appRoute = require('./routes/app-route');
+var adminRoute = require('./routes/admin-route');
+var pollRoute = require('./routes/poll-route');
+var eliminationRoute = require('./routes/elimination-route');
+
 var app = express();
 
-var mongoDB = process.env.MONGODB_URI || "mongodb://heroku_0mp8jcsg:svvmu3h7sta6saodga4o7uobk6@ds111993.mlab.com:11993/heroku_0mp8jcsg";
-var port = process.env.PORT || 3000;
+require('dotenv').config();
+
+var env = process.env;
+var mongoDb = env.MONGODB_URI + env.DATABASE_NAME;
+var port = env.PORT || 3000;
+
+console.log(mongoDb);
 
 // MongoDB connection
-mongoose.connect(mongoDB, {
+mongoose.connect(mongoDb, {
     useNewUrlParser: true
 });
 
@@ -30,12 +41,6 @@ app.use(bodyParser.json());
 
 // Sets the view engine
 app.set('view engine', 'ejs');
-
-// App routes
-var appRoute = require('./routes/app-route');
-var adminRoute = require('./routes/admin-route');
-var pollRoute = require('./routes/poll-route');
-var eliminationRoute = require('./routes/elimination-route');
 
 // Sets the static files
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
@@ -52,7 +57,6 @@ app.use('/', appRoute);
 app.use('*', function (req, res) {
     res.render('errors/404');
 });
-
 
 /*if (cluster.isMaster) {
     console.log('Master process is running');
