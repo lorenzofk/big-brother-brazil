@@ -8,6 +8,18 @@
     display: inline-block;
 }
 
+.main {
+    width: 650px;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 5px;
+    border-color: #DFDFDF;
+    position: relative;
+    margin-right: auto;
+    margin-left: auto;
+    top: 50px;
+}
+
 .container-results {
     width: 750px;
     border-style: solid;
@@ -24,22 +36,29 @@
     font-size: 26px;
     text-align: center;
     line-height: 45px;
+    padding-top: 20px;
+}
+
+.participant {
+    height: 340px;
+    display: block;
 }
 
 .participant-1 {
-    background: url('/public/img/sprite.png') no-repeat 30px -201px;
-    width: 100%;
+    background: url('/public/img/sprite.png') no-repeat -7px -201px;
+    width: 286px;
     height: 238px;
 }
 
 .participant-2 {
-    background: url('/public/img/sprite.png') no-repeat -305px -202px;
-    width: 100%;
+    background: url('/public/img/sprite.png') no-repeat -340px -202px;
+    width: 286px;
     height: 238px;
 }
 
 .participant-name {
     color: #5D5D5D;
+    font-family: ProximaNova-Bold;
     font-size: 18px;
     font-weight: bold;
 }
@@ -99,18 +118,4 @@
 
 #footer h4 {
     padding-top: 10px;
-}
-
-.card {
-    border: none;
-}
-
-.album {
-    background-color: white !important;
-    border-style: solid;
-    border-width: 2px;
-    border-radius: 5px;
-    border-color: #DFDFDF;
-    padding-left: 3px;
-    padding-right: 3px;
 }
