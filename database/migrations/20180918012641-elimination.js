@@ -10,7 +10,7 @@ module.exports = {
 
     end.setDate(start.getDate() + 1);
 
-    db.collection('big_brother_brasil').insertOne({
+    db.collection('big_brother').insert({
         name: "Paredão Final",
         isOpen: true,
         startsAt: start,
@@ -26,7 +26,7 @@ module.exports = {
   },
 
   down(db, next) {
-    db.collection('big_brother_brasil').drop();
+    db.collection('big_brother').drop();
     next();
   }
 
