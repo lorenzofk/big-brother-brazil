@@ -12,7 +12,6 @@
   },
   "scripts": {
     "test": "nyc --reporter=text mocha --exit",
-    "dev": "nodemon app.js",
     "start": "node app.js"
   },
   "repository": {
