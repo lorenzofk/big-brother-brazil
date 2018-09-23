@@ -4,14 +4,16 @@
   "description": "Aplicação para realização de votos em paredões do BBB",
   "main": "app.js",
   "engines": {
-    "node": "8.10.0"
+    "node": "8.10.0",
+    "npm": "3.5.2",
   },
   "directories": {
     "test": "mocha"
   },
   "scripts": {
     "test": "nyc --reporter=text mocha --exit",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
