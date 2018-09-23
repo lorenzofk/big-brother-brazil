@@ -25,8 +25,6 @@ var env = process.env;
 var mongoDb = env.MONGODB_URI + env.DATABASE_NAME;
 var port = env.PORT || 3000;
 
-console.log(mongoDb);
-
 // MongoDB connection
 mongoose.connect(mongoDb, {
     useNewUrlParser: true
