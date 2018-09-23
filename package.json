@@ -7,7 +7,6 @@
     "test": "mocha"
   },
   "scripts": {
-    "dev-test": "mocha --exit",
     "test": "DATABASE_NAME=bbb_test mocha --exit",
     "dev": "nodemon app.js",
     "start": "node app.js"
