@@ -16,10 +16,7 @@ describe('(1) - Paredão BBB', function () {
     // Before each test we empty the database
     beforeEach(function (done) {
 
-        // Don't remove my document used by tests
-        let query = { _id: { $ne: "5ba3ae10a745ea48ec7ee153" } };
-
-        eliminationModel.deleteMany(query, function (err) {
+        eliminationModel.deleteMany({}, function (err) {
             if (err) done();
         });
 
