@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "Aplicação para realização de votos em paredões do BBB",
   "main": "app.js",
-  "engines": {
-    "node": "8.10.0",
-    "npm": "3.5.2"
-  },
   "directories": {
     "test": "mocha"
   },
