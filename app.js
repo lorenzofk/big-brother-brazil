@@ -8,8 +8,6 @@
 var express    = require('express');
 var bodyParser = require('body-parser');
 var mongoose   = require('mongoose');
-var cluster = require('cluster');
-var numCPUs = require('os').cpus().length;
 
 // App routes
 var appRoute = require('./routes/app-route');
@@ -19,6 +17,7 @@ var eliminationRoute = require('./routes/elimination-route');
 
 var app = express();
 
+// Used to get env variables
 require('dotenv').config();
 
 var env = process.env;
@@ -55,21 +54,6 @@ app.use('/', appRoute);
 app.use('*', function (req, res) {
     res.render('errors/404');
 });
-
-/*if (cluster.isMaster) {
-    console.log('Master process is running');
-
-    // Fork workers
-    for (let i = 0; i < numCPUs; i++) {
-        cluster.fork();
-    }
-
-} else {
-
-    var server = app.listen(3000, function () {
-        console.log('Server is running on port:', server.address().port + ' by worker: ' + cluster.worker.id);
-    });
-}*/
 
 var server = app.listen(port, function () {
     console.log('Server is running on port:', server.address().port);
