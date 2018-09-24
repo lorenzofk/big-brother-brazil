@@ -2,6 +2,9 @@
 
 var eliminationRepository = require('../repositories/elimination-repository');
 
+/**
+ * Returns a view with all Eliminations
+ */
 exports.index = function (req, res) {
 
     try {

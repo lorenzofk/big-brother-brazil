@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var adminController = require('../controllers/admin-controller');
 
-// Routes used as API
+// Routes used to returns summaries
 router.get('/resultados/votos/:id', adminController.showResume);
 router.get('/resultados/votos/:id/:participantId', adminController.showResumeByParticipant);
 router.get('/resultados/votosPorHora/:id', adminController.showResumeByHour);

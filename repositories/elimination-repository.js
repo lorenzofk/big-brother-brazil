@@ -4,6 +4,10 @@ var mongoose = require('mongoose');
 var eliminationModel = require('../models/elimination-model').eliminationModel;
 var objectId =  mongoose.Types.ObjectId;
 
+/**
+*  This class is used in controllers to access
+ * and manipulate the data
+*/
 module.exports = new class EliminationRepository {
 
     create(data) {
