@@ -2,6 +2,9 @@
 
 var eliminationRepository = require('../repositories/elimination-repository');
 
+/**
+ * Returns a view with all Eliminations
+ */
 exports.index = function (req, res) {
 
     try {
@@ -21,6 +24,10 @@ exports.index = function (req, res) {
 
 };
 
+/**
+ * Returns a view with specific information from an Elimination
+ * @params id
+ */
 exports.show = function (req, res) {
 
     let id = req.params.id;
@@ -51,6 +58,10 @@ exports.show = function (req, res) {
 
 };
 
+/**
+ * Returns a view with summary of votes from an Elimination
+ * @params id
+ */
 exports.listResumeOfVotes = function (req, res) {
 
     let id = req.params.id;
@@ -62,6 +73,10 @@ exports.listResumeOfVotes = function (req, res) {
     return res.render('admin/elimination/all-votes', { id: id });
 };
 
+/**
+ * Returns a view with summary of votes by hour from an Elimination
+ * @params id
+ */
 exports.listResumeOfVotesByHour = function (req, res) {
 
     let id = req.params.id;
@@ -74,6 +89,10 @@ exports.listResumeOfVotesByHour = function (req, res) {
 
 };
 
+/**
+ * Returns JSON with the summary of votes from an Elimination
+ * @params id
+ */
 exports.showResume = function (req, res) {
 
     let id = req.params.id;
@@ -115,6 +134,10 @@ exports.showResume = function (req, res) {
     }
 };
 
+/**
+ * Returns JSON with the summary of votes by hour from an Elimination
+ * @params id
+ */
 exports.showResumeByHour = function (req, res) {
 
     let id = req.params.id;
@@ -153,6 +176,11 @@ exports.showResumeByHour = function (req, res) {
 
 };
 
+/**
+ * Returns JSON with the summary of votes by participant from and Elimination
+ * @params id
+ * @params participantId
+ */
 exports.showResumeByParticipant = function (req, res) {
 
     let id = req.params.id;

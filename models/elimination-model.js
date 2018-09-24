@@ -3,14 +3,17 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
+// Schema which represents the votes
 var voteSchema = new Schema({ createdAt: { type: Date, default: Date.now() } });
 
+// Schema which represents the participants
 var participantSchema = new Schema({
     name: { type: String, trim: true, required: true },
     totalOfVotes: { type: Number, default: 0 },
     votes: [voteSchema]
 });
 
+// Schema which represents the an elimination
 var eliminationSchema = new Schema({
     name: { type: String, trim: true, unique: true, required: true },
     startsAt: { type: Date, required: true },
@@ -20,6 +23,7 @@ var eliminationSchema = new Schema({
     participants: [participantSchema]
 }, { collection: 'big_brother' });
 
+// Used in hook pre-validate
 function validateInput(model, next) {
 
     if (model.name === undefined || model.name.length === 0) {
@@ -44,6 +48,7 @@ function validateInput(model, next) {
 
 }
 
+// Validates the data before save
 eliminationSchema.pre('validate', function(next) {
 
     validateInput(this, next);
@@ -58,6 +63,7 @@ eliminationSchema.pre('validate', function(next) {
 
 });
 
+// Exports the schemas to mongoose model
 var voteModel        = mongoose.model('voteModel', voteSchema);
 var eliminationModel = mongoose.model('eliminationModel', eliminationSchema);
 var participantModel = mongoose.model('participantModel', participantSchema);

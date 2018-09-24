@@ -3,6 +3,13 @@
 var eliminationModel = require('../models/elimination-model').eliminationModel;
 var eliminationRepository = require('../repositories/elimination-repository');
 
+/**
+ * Creates a new elimination with participants
+ *
+ * @params Elimination
+ *
+ * @returns JSON
+ */
 exports.create = function (req, res) {
 
     let model = new eliminationModel(req.body);
@@ -21,6 +28,13 @@ exports.create = function (req, res) {
     }
 };
 
+/**
+ * Deletes an Elimination by id
+ *
+ * @params id
+ *
+ * @returns JSON
+ */
 exports.delete = function (req, res) {
 
     let id = req.params.id;
@@ -44,6 +58,13 @@ exports.delete = function (req, res) {
 
 };
 
+/**
+ * Returns all Eliminations
+ *
+ * @params id
+ *
+ * @returns JSON
+ */
 exports.list = function (req, res) {
 
     try {
@@ -61,6 +82,14 @@ exports.list = function (req, res) {
 
 };
 
+/**
+ * Updates an Eliminations by id
+ * This is used to close an Elimination
+ *
+ * @params id
+ *
+ * @returns JSON
+ */
 exports.update = function (req, res) {
 
     let id = req.params.id;
@@ -97,6 +126,13 @@ exports.update = function (req, res) {
 
 };
 
+/**
+ * Returns an Eliminations by id
+ *
+ * @params id
+ *
+ * @returns JSON
+ */
 exports.show = function (req, res) {
 
     try {
