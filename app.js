@@ -1,9 +1,8 @@
 /**
- * Main file that manages the server
- * and the express application
+ * Main file that manages the application
  *
  * @author Lorenzo Kniss
- */
+*/
 
 var express    = require('express');
 var bodyParser = require('body-parser');
