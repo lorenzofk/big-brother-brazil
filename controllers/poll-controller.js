@@ -6,7 +6,10 @@ var eliminationRepository = require('../repositories/elimination-repository');
 
 require('dotenv').config();
 
-
+/**
+ * Returns a view to voting
+ * @params id
+ */
 exports.showElimination = function (req, res) {
 
     let id = req.params.id;
@@ -35,6 +38,14 @@ exports.showElimination = function (req, res) {
 
 };
 
+/**
+ * Create a vote to a specific participant by human (webapp)
+ * @params id
+ * @params participantId
+ * @params recaptcha
+ *
+ * @returns JSON with the summary of votes
+ */
 exports.voteByHuman = function (req, res) {
 
     let id = req.body.id;
@@ -129,6 +140,15 @@ exports.voteByHuman = function (req, res) {
 
 };
 
+/**
+ * Creates a vote to a specific participant
+ * Thiss used to load ans unit tests
+ *
+ * @params id
+ * @params participantId
+ *
+ * @return JSON with the summary of votes
+ */
 exports.vote = function (req, res) {
 
     let id = req.params.id;
