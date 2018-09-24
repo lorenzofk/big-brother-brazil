@@ -18,6 +18,10 @@ var counterDown = function (date) {
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+        hours = hours < 10 ? "0" + hours: hours;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+
         $('.counter').html(hours + ":" + minutes + ":" + seconds + "");
 
         // If the count down is finished, write some text
